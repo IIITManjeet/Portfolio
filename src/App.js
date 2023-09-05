@@ -1,23 +1,13 @@
-import logo from './logo.svg';
-import './App.css';
+import { MastHead } from "./components/MastHead";
+import { Navbar } from "./components/Navbar";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="flex flex-col relative h-auto">
+      <div className="fixed rounded-full bg-[#D41EF1B0] blur-[150px] opacity-[0.30] z-0 right-0 top-[-220px] h-[400px] w-[400px] absolute" />
+      <div className="fixed rounded-[400px] bg-[#D41EF1B0] blur-[200px] opacity-[0.30] top-[300px] left-[-150px] h-[400px] w-[400px] absolute" />
+      <Navbar />
+      <MastHead />
     </div>
   );
 }
