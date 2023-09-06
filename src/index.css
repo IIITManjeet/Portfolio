@@ -5,6 +5,13 @@ body {
   background-image: url("../public/bak.png");
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -ms-overflow-style: none; /* for Internet Explorer, Edge */
+  scrollbar-width: none; /* for Firefox */
+  overflow-y: scroll;
+}
+body::-webkit-scrollbar {
+  display: none; /* for Chrome, Safari, and Opera */
+  /* transition: transform 0.5s, opacity 0.5s; */
 }
 .h1 {
   font-size: 160px;
