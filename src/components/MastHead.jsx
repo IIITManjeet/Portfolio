@@ -20,8 +20,8 @@ export const MastHead = () => {
           height={400}
           width={400}
         />
-        <div className="rounded-full bg-black shadow-custom h-[150px] z-[-100px] self-end w-[40%] m-[-60px] blur-2xl absolute" />
-        <div className="flex gap-[10px] absolute self-end justify-center m-[-20px]">
+        <div className="rounded-full bg-black shadow-custom h-[100px] z-[-100px] self-end w-[35%] m-[-40px] blur-2xl absolute" />
+        <div className="flex gap-[25px] absolute self-end justify-center m-[-20px]">
           <span className="bg-gradient-to-r z-[1000px] font-Poppins from-[#916EF1] to-[#D41EF1] leading-[70px] text-transparent bg-clip-text font-semibold text-[70px]">
             Manjeet
           </span>
