@@ -1,4 +1,5 @@
 import About from "./components/About";
+import Experience from "./components/Experience";
 import { MastHead } from "./components/MastHead";
 import { Navbar } from "./components/Navbar";
 import { ScrollBar } from "./components/ScrollBar";
@@ -14,6 +15,7 @@ function App() {
         <ScrollBar to="about" />
       </div>
       <About />
+      <Experience />
     </div>
   );
 }
