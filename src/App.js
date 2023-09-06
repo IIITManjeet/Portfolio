@@ -1,4 +1,4 @@
-import { About } from "./components/About";
+import About from "./components/About";
 import { MastHead } from "./components/MastHead";
 import { Navbar } from "./components/Navbar";
 import { ScrollBar } from "./components/ScrollBar";

@@ -28,3 +28,116 @@ body::-webkit-scrollbar {
   -webkit-background-clip: text;
   -webkit-text-stroke: 10px transparent;
 }
+
+.fade-in-image {
+  animation: fadeIn 2s;
+  -webkit-animation: fadeIn 2s;
+  -moz-animation: fadeIn 2s;
+  -o-animation: fadeIn 2s;
+  -ms-animation: fadeIn 2s;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    scale: 0.5;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@-moz-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@-o-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@-ms-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.fade-in-avatar {
+  animation: fadeAvatar 1.5s;
+  -webkit-animation: fadeAvatar 1.5s;
+  -moz-animation: fadeAvatar 1.5s;
+  -o-animation: fadeAvatar 1.5s;
+  -ms-animation: fadeAvatar 1.5s;
+}
+
+
+@keyframes fadeAvatar {
+  0% {
+    height: 0;
+  }
+  100% {
+    height: 70px;
+  }
+}
+
+@-moz-keyframes fadeAvatar {
+  0% {
+    height: 0;
+  }
+  100% {
+    height: 70px;
+  }
+}
+
+@-webkit-keyframes fadeAvatar {
+  0% {
+    height: 0;
+  }
+  100% {
+    height: 70px;
+  }
+}
+
+@-o-keyframes fadeAvatar {
+  0% {
+    height: 0;
+  }
+  100% {
+    height: 70px;
+  }
+}
+
+@-ms-keyframes fadeAvatar {
+  0% {
+    height: 0;
+  }
+  100% {
+    height: 70px;
+  }
+}
