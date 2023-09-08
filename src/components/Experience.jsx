@@ -23,7 +23,7 @@ const ExperienceCard = ({ experience }) => {
           <img
             src={experience.icon}
             alt={experience.company_name}
-            className="w-[60%] h-[60%] object-contain"
+            className="w-[80%] h-[80%] object-contain"
           />
         </div>
       }
@@ -57,16 +57,20 @@ function Experience() {
   return (
     <>
       <motion.div
-        className="mt-[20px] flex flex-col gap-[5px] justify-center items-center"
+        className="mt-[20px] flex flex-col justify-center relative items-center"
         variants={textVariant()}
       >
+        <div className="fixed rounded-full bg-[#D41EF1B0] blur-[200px] opacity-[0.30] z-0 right-[-250px] top-[120px] h-[400px] w-[400px] absolute" />
+        <div className="fixed rounded-[400px] bg-[#D41EF1B0] blur-[200px] opacity-[0.30] top-[800px] left-[-150px] h-[400px] w-[400px] absolute" />
+        <div className="fixed rounded-full bg-[#D41EF1B0] blur-[200px] opacity-[0.30] z-0 right-[-250px] top-[1420px] h-[400px] w-[400px] absolute" />
+        <div className="fixed rounded-[400px] bg-[#D41EF1B0] blur-[200px] opacity-[0.30] top-[2000px] left-[-150px] h-[400px] w-[400px] absolute" />
         <p
           className={`font-Poppins text-[#CACACA] text-[22px] leading-[33px] text-center`}
         >
           What I have done so far
         </p>
         <h2
-          className={`font-Poppins leading-[96px] text-[64px] bg-gradient-to-r z-[1000px] from-[#640FEF] to-[#A32B99] text-transparent bg-clip-text font-bold`}
+          className={`font-Poppins leading-[96px] font-bold text-[64px] text-white`}
         >
           Work Experience.
         </h2>

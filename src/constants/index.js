@@ -1,8 +1,9 @@
-import codame from "../assets/codame.jpeg";
+import codame from "../assets/codame.svg";
 import singularityAI from "../assets/singularityAI.jpg";
 import metaverse from "../assets/metaverse.png";
 import iiit from "../assets/iiitbhopal.jpg";
-export const experiences = [
+import EHR from "../assets/EHR.png";
+const experiences = [
   {
     title: "Web Development Lead",
     company_name: "CODAME, IIIT Bhopal",
@@ -65,3 +66,92 @@ export const experiences = [
     ],
   },
 ];
+const projects = [
+  {
+    name: "EHR",
+    subHead: "Electronic Health Record",
+    description:
+      "Web-based platform that allows users to search, book, and manage car rentals from various providers, providing a convenient and efficient solution for transportation needs.",
+    tags: [
+      {
+        name: "react",
+        color: "blue-text-gradient",
+      },
+      {
+        name: "mongodb",
+        color: "green-text-gradient",
+      },
+      {
+        name: "tailwind",
+        color: "pink-text-gradient",
+      },
+    ],
+    image: EHR,
+    source_code_link: "https://github.com/",
+  },
+  {
+    name: "EHR",
+    subHead: "Electronic Health Record",
+    description:
+      "Web application that enables users to search for job openings, view estimated salary ranges for positions, and locate available jobs based on their current location.",
+    tags: [
+      {
+        name: "react",
+        color: "blue-text-gradient",
+      },
+      {
+        name: "restapi",
+        color: "green-text-gradient",
+      },
+      {
+        name: "scss",
+        color: "pink-text-gradient",
+      },
+    ],
+    image: EHR,
+    source_code_link: "https://github.com/",
+  },
+  {
+    name: "EHR",
+    subHead: "Electronic Health Record",
+    description:
+      "A comprehensive travel booking platform that allows users to book flights, hotels, and rental cars, and offers curated recommendations for popular destinations.",
+    tags: [
+      {
+        name: "nextjs",
+        color: "blue-text-gradient",
+      },
+      {
+        name: "supabase",
+        color: "green-text-gradient",
+      },
+      {
+        name: "css",
+        color: "pink-text-gradient",
+      },
+    ],
+    image: EHR,
+    source_code_link: "https://github.com/",
+  },
+];
+
+const navLinks = [
+  {
+    id: "about",
+    title: "About",
+  },
+  {
+    id: "experience",
+    title: "Experiences",
+  },
+  {
+    id: "projects",
+    title: "Projects",
+  },
+  {
+    id: "contact",
+    title: "Contact",
+  },
+];
+
+export { experiences, projects, navLinks };

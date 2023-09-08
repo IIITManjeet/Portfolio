@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 
 export const ScrollBar = ({to}) => {
   return (
-    <div className="w-full pb-5 mt-auto flex justify-center items-center">
+    <div className="w-full z-[1000px] pb-5 mt-auto flex justify-center items-center">
       <a href={`#${to}`}>
         <div className="w-[30px] h-[54px] rounded-3xl border-[#D41EF1] border-2 flex justify-center items-start p-2">
           <motion.div
