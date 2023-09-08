@@ -106,29 +106,29 @@ const Projects = () => {
         className="flex justify-center items-center sm:gap-[150px] mt-[60px]"
       >
         <div className="flex sm:flex-row flex-col justify-center items-center gap-[-18px] flex-[33%]">
-          <span className="sm:w-[47%] bg-gradient-to-r from-[#631FD2] font-[Poppins] text-[64px] font-bold leading-[96px] to-[#A32B99] text-transparent bg-clip-text">
+          <span className="sm:w-[47%] bg-gradient-to-r from-[#631FD2] font-Poppins text-[64px] font-bold leading-[96px] to-[#A32B99] text-transparent bg-clip-text">
             1.5+
           </span>
-          <span className="sm:w-[30%] font-[Poppins] text-[18px] font-normal leading-[19.28px] sm:text-left text-center text-[#D1D1D1]">
+          <span className="sm:w-[30%] font-Poppins text-[18px] font-normal leading-[19.28px] sm:text-left text-center text-[#D1D1D1]">
             Years of Experience
           </span>
         </div>
-        <div className="flex  sm:flex-row flex-col justify-center items-center gap-[-10px] flex-[33%]">
-          <span className="sm:w-[20%] bg-gradient-to-r from-[#631FD2] font-[Poppins] text-[64px] font-bold leading-[96px] to-[#A32B99] text-transparent bg-clip-text">
+        <div className="flex  sm:flex-row flex-col justify-center items-center gap-[8px] flex-[33%]">
+          <span className="sm:w-[20%] bg-gradient-to-r from-[#631FD2] font-Poppins text-[64px] font-bold leading-[96px] to-[#A32B99] text-transparent bg-clip-text">
             1
-            <sup className="bg-gradient-to-r from-[#631FD2] text-[20px] leading-[30px] align-super font-[Poppins] font-bold to-[#A32B99] text-transparent bg-clip-text">
+            <sup className="bg-gradient-to-r from-[#631FD2] text-[20px] leading-[30px] align-super font-Poppins font-bold to-[#A32B99] text-transparent bg-clip-text">
               st
             </sup>
           </span>
-          <span className="sm:w-[50%] font-[Poppins] text-[18px] font-normal leading-[19.28px] sm:text-left text-center text-[#D1D1D1]">
+          <span className="sm:w-[50%] font-Poppins text-[18px] font-normal leading-[19.28px] sm:text-left text-center text-[#D1D1D1]">
             Runner Up in <span className="text-white">Codeutsava 6.0</span>
           </span>
         </div>
-        <div className="flex  sm:flex-row flex-col justify-center items-center gap-[-8px] flex-[33%]">
-          <span className="sm:w-[50%] bg-gradient-to-r from-[#631FD2] font-[Poppins] text-[64px] font-bold leading-[96px] to-[#A32B99] text-transparent bg-clip-text">
+        <div className="flex  sm:flex-row flex-col justify-center items-center gap-[8px] flex-[33%]">
+          <span className="sm:w-[50%] bg-gradient-to-r from-[#631FD2] font-Poppins text-[64px] font-bold leading-[96px] to-[#A32B99] text-transparent bg-clip-text">
             500+
           </span>
-          <span className="sm:w-[30%] font-[Poppins] text-[18px] align-left font-normal leading-[19.28px] text-[#D1D1D1]">
+          <span className="sm:w-[40%] font-Poppins text-[18px] align-left font-normal leading-[19.28px] text-[#D1D1D1]">
             DSA Ques. Solved
           </span>
         </div>
