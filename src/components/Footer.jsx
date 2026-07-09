@@ -1,5 +1,6 @@
 import React from "react";
 import { socials } from "../constants";
+import { GithubIcon, LinkedinIcon } from "./fx/Icons";
 
 const Footer = () => (
   <footer className="border-t border-line mt-10">
@@ -8,24 +9,25 @@ const Footer = () => (
         <span className="text-acc">-- NORMAL --</span>{" "}
         <span className="text-fg">main</span> · utf-8 · react+tailwind
       </p>
-      <p className="font-mono text-[12.5px] text-mut">
-        © {new Date().getFullYear()} manjeet pathak ·{" "}
+      <p className="font-mono text-[12.5px] text-mut flex items-center gap-3">
+        © {new Date().getFullYear()} manjeet pathak
         <a
           href={socials.github}
           target="_blank"
           rel="noreferrer"
-          className="text-mut hover:text-acc transition-colors"
+          aria-label="GitHub"
+          className="text-mut hover:text-acc transition-colors inline-flex"
         >
-          github
-        </a>{" "}
-        ·{" "}
+          <GithubIcon size={15} />
+        </a>
         <a
           href={socials.linkedin}
           target="_blank"
           rel="noreferrer"
-          className="text-mut hover:text-acc transition-colors"
+          aria-label="LinkedIn"
+          className="text-mut hover:text-acc transition-colors inline-flex"
         >
-          linkedin
+          <LinkedinIcon size={15} />
         </a>
       </p>
     </div>

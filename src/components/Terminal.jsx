@@ -49,7 +49,7 @@ const Terminal = () => {
     if (typed.length < target.length) {
       const t = setTimeout(
         () => setTyped(target.slice(0, typed.length + 1)),
-        28
+        16
       );
       return () => clearTimeout(t);
     }
@@ -61,7 +61,7 @@ const Terminal = () => {
       ]);
       setTyped("");
       setBootIdx((i) => i + 1);
-    }, 260);
+    }, 140);
     return () => clearTimeout(t);
   }, [typed, bootIdx]);
 

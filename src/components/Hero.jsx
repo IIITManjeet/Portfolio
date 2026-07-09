@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { socials, ticker } from "../constants";
 import Terminal from "./Terminal";
 import { useLiveStats } from "../hooks/useLive";
+import { GithubIcon, LinkedinIcon, CodeIcon } from "./fx/Icons";
 
 // deterministic pseudo-random sparkline per label — looks like a rating history chart
 const sparkPoints = (label) => {
@@ -155,18 +156,19 @@ const Hero = () => {
             className="flex gap-2 -ml-3"
           >
             {[
-              { label: "github", href: socials.github },
-              { label: "linkedin", href: socials.linkedin },
-              { label: "leetcode", href: socials.leetcode },
+              { label: "github", href: socials.github, Icon: GithubIcon },
+              { label: "linkedin", href: socials.linkedin, Icon: LinkedinIcon },
+              { label: "leetcode", href: socials.leetcode, Icon: CodeIcon },
             ].map((s) => (
               <a
                 key={s.label}
                 href={s.href}
                 target="_blank"
                 rel="noreferrer"
-                className="font-mono text-[13.5px] text-mut hover:text-acc transition-colors px-3 py-2"
+                className="font-mono text-[13.5px] text-mut hover:text-acc transition-colors px-3 py-2 inline-flex items-center gap-2"
               >
-                {s.label} ↗
+                <s.Icon size={15} />
+                {s.label}
               </a>
             ))}
           </motion.div>

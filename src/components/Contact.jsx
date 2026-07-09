@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import Section from "./Section";
 import { socials, contactRoles } from "../constants";
+import { GithubIcon, LinkedinIcon, CodeIcon, MailIcon } from "./fx/Icons";
 
 const Contact = () => {
   const [form, setForm] = useState({
@@ -63,8 +64,8 @@ const Contact = () => {
           </p>
 
           <div className="bg-panel/80 border border-line rounded-xl p-5 font-mono text-[13.5px] flex flex-col gap-3">
-            <p>
-              <span className="text-dim">email </span>
+            <p className="flex items-center gap-3">
+              <MailIcon size={15} className="text-dim shrink-0" />
               <a
                 href={`mailto:${socials.email}`}
                 className="text-acc hover:underline"
@@ -72,8 +73,8 @@ const Contact = () => {
                 {socials.email}
               </a>
             </p>
-            <p>
-              <span className="text-dim">github </span>
+            <p className="flex items-center gap-3">
+              <GithubIcon size={15} className="text-dim shrink-0" />
               <a
                 href={socials.github}
                 target="_blank"
@@ -83,8 +84,8 @@ const Contact = () => {
                 /IIITManjeet
               </a>
             </p>
-            <p>
-              <span className="text-dim">linkedin </span>
+            <p className="flex items-center gap-3">
+              <LinkedinIcon size={15} className="text-dim shrink-0" />
               <a
                 href={socials.linkedin}
                 target="_blank"
@@ -94,8 +95,8 @@ const Contact = () => {
                 /manjeet-pathak
               </a>
             </p>
-            <p>
-              <span className="text-dim">leetcode </span>
+            <p className="flex items-center gap-3">
+              <CodeIcon size={15} className="text-dim shrink-0" />
               <a
                 href={socials.leetcode}
                 target="_blank"
@@ -105,9 +106,11 @@ const Contact = () => {
                 /conqueror_61_m
               </a>
             </p>
-            <p>
-              <span className="text-dim">status </span>
-              <span className="text-acc">● open to work</span>
+            <p className="flex items-center gap-3">
+              <span className="w-[15px] flex justify-center shrink-0">
+                <span className="w-2 h-2 rounded-full bg-acc" />
+              </span>
+              <span className="text-acc">open to work</span>
             </p>
           </div>
         </motion.div>
