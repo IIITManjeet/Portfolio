@@ -17,7 +17,7 @@ const OpenSource = () => {
       : pr
   );
   return (
-    <Section id="opensource" index="04" kicker="open-source" title="Upstream, not just origin." size="sm">
+    <Section id="opensource" index="04" kicker="open-source" title="My code in other people's projects." size="sm">
       <div className="bg-panel/80 border border-line rounded-xl overflow-hidden">
         <div className="flex items-center gap-2 px-5 py-3 border-b border-line bg-raise">
           <span className="font-mono text-[12.5px] text-dim">

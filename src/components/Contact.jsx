@@ -45,7 +45,7 @@ const Contact = () => {
   };
 
   return (
-    <Section id="contact" index="07" kicker="contact" title="Let's talk latency, ledgers, or chains." size="sm">
+    <Section id="contact" index="07" kicker="contact" title="Let's build something together." size="sm">
       <div className="grid lg:grid-cols-[1fr_1.2fr] gap-12">
         <motion.div
           initial={{ opacity: 0, y: 24 }}

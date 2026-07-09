@@ -56,7 +56,7 @@ const Achievements = () => {
   const headline = withLive.slice(0, 4);
   const rest = withLive.slice(4);
   return (
-    <Section id="achievements" index="06" kicker="achievements" title="Rated. Ranked. Repeatable." size="sm">
+    <Section id="achievements" index="06" kicker="achievements" title="Competitive programming, by the numbers." size="sm">
       <div className="grid grid-cols-1 min-[480px]:grid-cols-2 lg:grid-cols-4 gap-5">
         {headline.map((a, i) => (
           <AchievementCard key={a.title} a={a} i={i} />

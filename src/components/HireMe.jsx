@@ -10,7 +10,7 @@ const accentText = {
 
 const HireMe = () => {
   return (
-    <Section id="work" index="05" kicker="hire-me" title="What I can build for you.">
+    <Section id="work" index="05" kicker="services" title="What I can build for you.">
       <div className="grid md:grid-cols-3 gap-6">
         {services.map((s, i) => (
           <motion.div
@@ -47,10 +47,9 @@ const HireMe = () => {
         transition={{ duration: 0.5, delay: 0.2 }}
         className="font-mono text-[13px] text-dim mt-8 leading-[22px]"
       >
-        <span className="text-acc">$</span> freelance log — delivered{" "}
+        <span className="text-acc">$</span> past freelance work — delivered{" "}
         <span className="text-fg">FW-Defence</span> end-to-end for a client
-        (details under NDA, references on request) · available for new
-        engagements via the{" "}
+        (details available on request) · open to new engagements via the{" "}
         <a href="#contact" className="text-acc hover:underline">
           contact form
         </a>

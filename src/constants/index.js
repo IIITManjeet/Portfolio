@@ -13,7 +13,7 @@ const navLinks = [
   { id: "experience", title: "exp" },
   { id: "projects", title: "projects" },
   { id: "opensource", title: "oss" },
-  { id: "work", title: "hire-me" },
+  { id: "work", title: "services" },
   { id: "achievements", title: "ranks" },
   { id: "contact", title: "contact" },
 ];
@@ -245,7 +245,7 @@ const services = [
   },
   {
     title: "Backend & Distributed Systems",
-    desc: "Payment infrastructure, active-active architectures, service mesh, observability, high-throughput APIs that don't fall over.",
+    desc: "Payment infrastructure, always-on multi-region architectures, service mesh, observability, and high-throughput APIs engineered for reliability.",
     mono: "uptime: 99.995%",
     accent: "acc",
     proof: "see where I've shipped",

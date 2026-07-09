@@ -4,6 +4,42 @@ import { socials, ticker } from "../constants";
 import Terminal from "./Terminal";
 import { useLiveStats } from "../hooks/useLive";
 
+// deterministic pseudo-random sparkline per label — looks like a rating history chart
+const sparkPoints = (label) => {
+  let h = 0;
+  for (const c of label) h = (h * 31 + c.charCodeAt(0)) % 9973;
+  const ys = [];
+  let v = 9;
+  for (let i = 0; i < 9; i++) {
+    h = (h * 137 + 71) % 9973;
+    v = Math.max(3, Math.min(12, v + ((h % 7) - 3)));
+    ys.push(v);
+  }
+  ys[8] = 2; // end on a high (y is inverted in SVG)
+  return ys.map((y, i) => `${i * 6},${y}`).join(" ");
+};
+
+const Sparkline = ({ label, up }) => (
+  <svg
+    width="48"
+    height="14"
+    viewBox="0 0 48 14"
+    className={`inline-block mx-2 ${up ? "text-acc" : "text-cy"}`}
+    aria-hidden="true"
+  >
+    <polyline
+      points={sparkPoints(label)}
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinejoin="round"
+      strokeLinecap="round"
+      opacity="0.9"
+    />
+    <circle cx="48" cy="2" r="2" fill="currentColor" />
+  </svg>
+);
+
 const Ticker = () => {
   const live = useLiveStats();
   const items = ticker.map((t) => {
@@ -22,18 +58,19 @@ const Ticker = () => {
         {[...items, ...items].map((t, i) => (
           <span
             key={`${t.label}-${i}`}
-            className="font-mono text-[12.5px] whitespace-nowrap px-6 border-r border-line/60"
+            className="font-mono text-[12.5px] whitespace-nowrap px-6 border-r border-line/60 inline-flex items-center"
           >
-            <span className="text-mut">{t.label}</span>{" "}
-            <span className="text-fg">{t.value}</span>{" "}
+            <span className="text-mut">{t.label}</span>
+            <Sparkline label={t.label} up={t.dir === "up"} />
+            <span className="text-fg">{t.value}</span>
             <span
-              className={
+              className={`ml-2 ${
                 t.live
                   ? "text-acc cursor-blink"
                   : t.dir === "up"
                   ? "text-acc"
                   : "text-cy"
-              }
+              }`}
             >
               {t.live ? "●" : t.dir === "up" ? "▲" : "◆"}
             </span>
@@ -78,11 +115,11 @@ const Hero = () => {
             className="font-inter text-[17px] leading-[28px] text-mut max-w-[520px]"
           >
             I build{" "}
-            <span className="text-fg">distributed payment infrastructure</span>{" "}
-            at Juspay and{" "}
-            <span className="text-fg">low-latency trading systems</span> on my
-            own time — order books measured in nanoseconds, architectures
-            measured in nines.
+            <span className="text-fg">payment infrastructure</span> at Juspay
+            and <span className="text-fg">low-latency trading systems</span> on
+            my own time — trading engines that process millions of orders per
+            second, and payment platforms designed to stay up 99.995% of the
+            time.
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 20 }}

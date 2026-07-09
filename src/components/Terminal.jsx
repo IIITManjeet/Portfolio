@@ -10,7 +10,13 @@ import {
 
 const BOOT = [
   { cmd: "whoami", out: ["manjeet pathak — backend engineer @ juspay"] },
-  { cmd: "./orderbook --bench", out: ["22M ops/sec · 46 ns/op · 0 heap allocs"] },
+  {
+    cmd: "./orderbook --bench",
+    out: [
+      "22M ops/sec · 46 ns/op · 0 heap allocs",
+      "(bench = performance test: my trading engine handles 22 million orders/sec)",
+    ],
+  },
   { cmd: "curl ratings/live", out: ["LC 2170 ▲  CF 1605 ▲  CC 2033 ▲"] },
 ];
 
