@@ -198,10 +198,16 @@ const Contact = () => {
           )}
           {status === "error" && (
             <p className="font-mono text-[13px] text-down">
-              ✗ something broke. mail me directly:{" "}
-              <a href={`mailto:${socials.email}`} className="underline">
-                {socials.email}
-              </a>
+              ✗ the form service is unreachable right now —{" "}
+              <a
+                href={`mailto:${socials.email}?subject=${encodeURIComponent(
+                  `[portfolio] ${form.role} — ${form.name}`
+                )}&body=${encodeURIComponent(form.message)}`}
+                className="underline text-acc"
+              >
+                send the same message via email
+              </a>{" "}
+              (your text is preserved)
             </p>
           )}
         </motion.form>
