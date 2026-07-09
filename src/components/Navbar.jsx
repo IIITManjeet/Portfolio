@@ -1,100 +1,104 @@
 import React, { useEffect, useState } from "react";
 import { navLinks } from "../constants";
-import logo from "../assets/logo.svg";
-import { motion } from "framer-motion";
-import close from "../assets/close.svg";
-import menu from "../assets/menu.svg";
-import { slideIn } from "../utils/motion";
+
 const Navbar = () => {
-  const [active, setActive] = useState("");
-  const [toggle, setToggle] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      if (scrollTop > 100) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
-      }
+    const onScroll = () => {
+      setScrolled(window.scrollY > 40);
+      const max =
+        document.documentElement.scrollHeight - window.innerHeight;
+      setProgress(max > 0 ? (window.scrollY / max) * 100 : 0);
     };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   return (
-    <motion.nav
-      variants={slideIn("down", "tween", 0.5, 1.2)}
-      className={`${"sm:px-16 px-6"} w-full flex items-center py-5 fixed top-0 z-20 ${
-        scrolled ? "bg-inherit" : "bg-transparent"
+    <nav
+      className={`fixed top-0 w-full z-50 transition-all ${
+        scrolled
+          ? "bg-ink/95 backdrop-blur-xl border-b border-line"
+          : "bg-transparent border-b border-transparent"
       }`}
     >
-      <div className="w-full flex justify-between items-center max-w-7xl mx-auto">
+      <div
+        className="absolute top-0 left-0 h-[2px] bg-gradient-to-r from-acc to-cy transition-[width] duration-150 ease-out"
+        style={{ width: `${progress}%` }}
+      />
+      <div className="max-w-[1120px] mx-auto px-6 sm:px-10 h-16 flex items-center justify-between">
         <a
-          href="/"
-          className="flex items-center gap-2"
-          onClick={() => {
-            setActive("");
-            window.scrollTo(0, 0);
-          }}
+          href="#top"
+          className="font-mono text-[15px] text-fg hover:text-acc transition-colors"
         >
-          <img
-            src={logo}
-            alt="logo"
-            className="w-20 rounded-full h-20 object-contain"
-          />
+          <span className="text-acc">manjeet</span>
+          <span className="text-dim">@</span>
+          <span className="text-cy">quant</span>
+          <span className="text-dim">:~$</span>
+          <span className="cursor-blink text-acc ml-1">▌</span>
         </a>
 
-        <ul className="list-none hidden sm:flex flex-row gap-10">
-          {navLinks.map((nav) => (
-            <li
-              key={nav.id}
-              className={`${
-                active === nav.title ? "text-[white]" : "text-[#CBCBCB]"
-              } hover:text-white gap-[60px] font-Poppins text-[24px] leading-[30px] font-medium cursor-pointer`}
-              onClick={() => setActive(nav.title)}
-            >
-              <a href={`#${nav.id}`}>{nav.title}</a>
+        <ul className="hidden lg:flex items-center gap-5 xl:gap-6 list-none whitespace-nowrap">
+          {navLinks.map((nav, i) => (
+            <li key={nav.id}>
+              <a
+                href={`#${nav.id}`}
+                className="font-mono text-[13px] text-mut hover:text-acc transition-colors whitespace-nowrap"
+              >
+                <span className="text-dim">0{i + 1}.</span>{nav.title}
+              </a>
             </li>
           ))}
+          <li>
+            <a
+              href="/resume.pdf"
+              target="_blank"
+              rel="noreferrer"
+              className="font-mono text-[13px] text-mut hover:text-acc transition-colors whitespace-nowrap"
+            >
+              resume↓
+            </a>
+          </li>
+          <li>
+            <a
+              href="#contact"
+              className="font-mono text-[12px] text-acc border border-acc/40 rounded px-3 py-[6px] hover:bg-acc/10 transition-colors whitespace-nowrap"
+            >
+              ● open to work
+            </a>
+          </li>
         </ul>
 
-        <div className="sm:hidden flex flex-1 justify-end items-center">
-          <img
-            src={toggle ? close : menu}
-            alt="menu"
-            className="w-[28px] h-[28px] object-contain"
-            onClick={() => setToggle(!toggle)}
-          />
-
-          <div
-            className={`${
-              !toggle ? "hidden" : "flex"
-            } p-6 black-gradient absolute top-20 right-0 mx-4 my-2 min-w-[140px] z-10 rounded-xl`}
-          >
-            <ul className="list-none flex justify-end items-start flex-1 flex-col gap-4">
-              {navLinks.map((nav) => (
-                <li
-                  key={nav.id}
-                  className={`font-medium cursor-pointer hover:text-white gap-[60px] font-Poppins text-[24px] leading-[30px] ${
-                    active === nav.title ? "text-[white]" : "text-[#CBCBCB]"
-                  }`}
-                  onClick={() => {
-                    setToggle(!toggle);
-                    setActive(nav.title);
-                  }}
-                >
-                  <a href={`#${nav.id}`}>{nav.title}</a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
+        <button
+          aria-label="menu"
+          onClick={() => setOpen(!open)}
+          className="lg:hidden font-mono text-acc text-[20px] bg-transparent border-0 cursor-pointer"
+        >
+          {open ? "✕" : "≡"}
+        </button>
       </div>
-    </motion.nav>
+
+      {open && (
+        <div className="lg:hidden bg-ink/95 backdrop-blur-md border-b border-line px-6 pb-5">
+          <ul className="flex flex-col gap-4 list-none pt-2">
+            {navLinks.map((nav, i) => (
+              <li key={nav.id}>
+                <a
+                  href={`#${nav.id}`}
+                  onClick={() => setOpen(false)}
+                  className="font-mono text-[14px] text-mut hover:text-acc"
+                >
+                  <span className="text-dim">0{i + 1}.</span> {nav.title}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </nav>
   );
 };
 

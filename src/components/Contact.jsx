@@ -1,144 +1,213 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
-import emailjs from "@emailjs/browser";
-import { slideIn } from "../utils/motion";
-import { SectionWrapper } from "../hocs";
-import EarthCanvas from "./canvas/Earth";
+import Section from "./Section";
+import { socials, contactRoles } from "../constants";
 
 const Contact = () => {
-  const formRef = useRef();
   const [form, setForm] = useState({
     name: "",
     email: "",
+    role: contactRoles[0],
     message: "",
   });
+  const [status, setStatus] = useState("idle"); // idle | sending | sent | error
 
-  const [loading, setLoading] = useState(false);
+  const handleChange = (e) =>
+    setForm({ ...form, [e.target.name]: e.target.value });
 
-  const handleChange = (e) => {
-    const { target } = e;
-    const { name, value } = target;
-
-    setForm({
-      ...form,
-      [name]: value,
-    });
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-
-    emailjs
-      .send(
-        import.meta.env.VITE_APP_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_APP_EMAILJS_TEMPLATE_ID,
+    setStatus("sending");
+    try {
+      const res = await fetch(
+        `https://formsubmit.co/ajax/${socials.email}`,
         {
-          from_name: form.name,
-          to_name: "JavaScript Mastery",
-          from_email: form.email,
-          to_email: "sujata@jsmastery.pro",
-          message: form.message,
-        },
-        import.meta.env.VITE_APP_EMAILJS_PUBLIC_KEY
-      )
-      .then(
-        () => {
-          setLoading(false);
-          alert("Thank you. I will get back to you as soon as possible.");
-
-          setForm({
-            name: "",
-            email: "",
-            message: "",
-          });
-        },
-        (error) => {
-          setLoading(false);
-          console.error(error);
-
-          alert("Ahh, something went wrong. Please try again.");
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            name: form.name,
+            email: form.email,
+            interested_in: form.role,
+            message: form.message,
+            _subject: `[portfolio] ${form.role} — ${form.name}`,
+          }),
         }
       );
+      if (!res.ok) throw new Error("send failed");
+      setStatus("sent");
+      setForm({ name: "", email: "", role: contactRoles[0], message: "" });
+    } catch (err) {
+      setStatus("error");
+    }
   };
 
   return (
-    <div className={`flex gap-10`}>
-      <motion.div
-        variants={slideIn("left", "tween", 0.2, 1)}
-        className="bg-black-100 p-8 rounded-2xl"
-      >
-        <p
-          className={
-            "sm:text-[18px] text-[14px] text-white uppercase tracking-wider"
-          }
+    <Section id="contact" index="07" kicker="contact" title="Let's talk latency, ledgers, or chains." size="sm">
+      <div className="grid lg:grid-cols-[1fr_1.2fr] gap-12">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.05 }}
+          transition={{ duration: 0.5 }}
+          className="flex flex-col gap-6"
         >
-          Get in touch
-        </p>
-        <h3
-          className={
-            "text-white font-black text-[30px]"
-          }
-        >
-          Contact.
-        </h3>
+          <p className="font-inter text-[16px] leading-[27px] text-mut">
+            Open to <span className="text-fg">quant dev</span>,{" "}
+            <span className="text-fg">backend / distributed systems</span> and{" "}
+            <span className="text-fg">web3</span> roles — and freelance
+            projects in all three. Tell me what you're building; I usually
+            reply within 24 hours.
+          </p>
 
-        <form
-          ref={formRef}
+          <div className="bg-panel/80 border border-line rounded-xl p-5 font-mono text-[13.5px] flex flex-col gap-3">
+            <p>
+              <span className="text-dim">email </span>
+              <a
+                href={`mailto:${socials.email}`}
+                className="text-acc hover:underline"
+              >
+                {socials.email}
+              </a>
+            </p>
+            <p>
+              <span className="text-dim">github </span>
+              <a
+                href={socials.github}
+                target="_blank"
+                rel="noreferrer"
+                className="text-acc hover:underline"
+              >
+                /IIITManjeet
+              </a>
+            </p>
+            <p>
+              <span className="text-dim">linkedin </span>
+              <a
+                href={socials.linkedin}
+                target="_blank"
+                rel="noreferrer"
+                className="text-acc hover:underline"
+              >
+                /manjeet-pathak
+              </a>
+            </p>
+            <p>
+              <span className="text-dim">leetcode </span>
+              <a
+                href={socials.leetcode}
+                target="_blank"
+                rel="noreferrer"
+                className="text-acc hover:underline"
+              >
+                /conqueror_61_m
+              </a>
+            </p>
+            <p>
+              <span className="text-dim">status </span>
+              <span className="text-acc">● open to work</span>
+            </p>
+          </div>
+        </motion.div>
+
+        <motion.form
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.05 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
           onSubmit={handleSubmit}
-          className="mt-12 flex flex-col gap-8"
+          className="bg-panel/80 border border-line rounded-xl p-6 flex flex-col gap-4 glow-acc"
         >
-          <label className="flex flex-col">
-            <span className="text-white font-medium mb-4">Your Name</span>
-            <input
-              type="text"
-              name="name"
-              value={form.name}
-              onChange={handleChange}
-              placeholder="What's your good name?"
-              className="bg-tertiary py-4 px-6 placeholder:text-secondary text-white rounded-lg outline-none border-none font-medium"
-            />
+          <div className="grid sm:grid-cols-2 gap-4">
+            <label className="flex flex-col gap-2">
+              <span className="font-mono text-[12.5px] text-dim">name *</span>
+              <input
+                required
+                type="text"
+                name="name"
+                value={form.name}
+                onChange={handleChange}
+                placeholder="Your name"
+                className="field"
+              />
+            </label>
+            <label className="flex flex-col gap-2">
+              <span className="font-mono text-[12.5px] text-dim">email *</span>
+              <input
+                required
+                type="email"
+                name="email"
+                value={form.email}
+                onChange={handleChange}
+                placeholder="you@company.com"
+                className="field"
+              />
+            </label>
+          </div>
+
+          <label className="flex flex-col gap-2">
+            <span className="font-mono text-[12.5px] text-dim">
+              interested in *
+            </span>
+            <div className="relative">
+              <select
+                name="role"
+                value={form.role}
+                onChange={handleChange}
+                className="field cursor-pointer appearance-none pr-10"
+              >
+                {contactRoles.map((r) => (
+                  <option key={r} value={r} className="bg-panel text-fg">
+                    {r}
+                  </option>
+                ))}
+              </select>
+              <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 font-mono text-[12px] text-dim">
+                ▾
+              </span>
+            </div>
           </label>
-          <label className="flex flex-col">
-            <span className="text-white font-medium mb-4">Your email</span>
-            <input
-              type="email"
-              name="email"
-              value={form.email}
-              onChange={handleChange}
-              placeholder="What's your web address?"
-              className="py-4 px-6 placeholder:text-secondary text-white rounded-lg outline-none border-none font-medium"
-            />
-          </label>
-          <label className="flex flex-col">
-            <span className="text-white font-medium mb-4">Your Message</span>
+
+          <label className="flex flex-col gap-2">
+            <span className="font-mono text-[12.5px] text-dim">message *</span>
             <textarea
-              rows={7}
+              required
+              rows={5}
               name="message"
               value={form.message}
               onChange={handleChange}
-              placeholder="What you want to say?"
-              className="py-4 px-6 placeholder:text-secondary text-white rounded-lg outline-none border-none font-medium"
+              placeholder="Scope, stack, timeline — or just say hi."
+              className="field resize-y"
             />
           </label>
 
           <button
             type="submit"
-            className="bg-tertiary py-3 px-8 rounded-xl outline-none w-fit text-white font-bold shadow-md shadow-primary"
+            disabled={status === "sending"}
+            className="font-mono text-[14px] bg-acc text-ink font-semibold rounded px-6 py-3 w-fit hover:opacity-90 transition-opacity disabled:opacity-50 cursor-pointer border-0"
           >
-            {loading ? "Sending..." : "Send"}
+            {status === "sending" ? "sending..." : "send message →"}
           </button>
-        </form>
-      </motion.div>
 
-      <motion.div
-        variants={slideIn("right", "tween", 0.2, 1)}
-        className="flex-1 h-auto w-[60%]"
-      >
-        <EarthCanvas />
-      </motion.div>
-    </div>
+          {status === "sent" && (
+            <p className="font-mono text-[13px] text-acc">
+              ✓ delivered — I'll get back to you within 24h.
+            </p>
+          )}
+          {status === "error" && (
+            <p className="font-mono text-[13px] text-down">
+              ✗ something broke. mail me directly:{" "}
+              <a href={`mailto:${socials.email}`} className="underline">
+                {socials.email}
+              </a>
+            </p>
+          )}
+        </motion.form>
+      </div>
+    </Section>
   );
 };
 
-export default SectionWrapper(Contact, "contact");
+export default Contact;

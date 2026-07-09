@@ -1,157 +1,290 @@
-import codame from "../assets/codame.svg";
-import singularityAI from "../assets/singularityAI.jpg";
-import metaverse from "../assets/metaverse.png";
-import iiit from "../assets/iiitbhopal.jpg";
-import EHR from "../assets/EHR.png";
+const socials = {
+  github: "https://github.com/IIITManjeet",
+  linkedin: "https://www.linkedin.com/in/manjeet-pathak-896638223/",
+  leetcode: "https://leetcode.com/u/conqueror_61_m/",
+  codeforces: "https://codeforces.com/profile/Manjeet_Pathak",
+  codechef: "https://www.codechef.com/users/conqueror61",
+  atcoder: "https://atcoder.jp/users/Man_Pat061",
+  email: "manjeetpathak2003@gmail.com",
+};
+
+const navLinks = [
+  { id: "about", title: "about" },
+  { id: "experience", title: "exp" },
+  { id: "projects", title: "projects" },
+  { id: "opensource", title: "oss" },
+  { id: "work", title: "hire-me" },
+  { id: "achievements", title: "ranks" },
+  { id: "contact", title: "contact" },
+];
+
+const ticker = [
+  { label: "LEETCODE", value: "2170 · GUARDIAN · TOP 1.13%", dir: "up" },
+  { label: "CODEFORCES", value: "1605 · EXPERT · #736 R1024", dir: "up" },
+  { label: "CODECHEF", value: "2033 · 5★ · #32 STARTERS 176", dir: "up" },
+  { label: "ICPC", value: "AMRITAPURI FINALS '23 · 108/228", dir: "flat" },
+  { label: "HACKERCUP", value: "ROUND 2 · '23 & '24", dir: "flat" },
+  { label: "ATCODER", value: "4 KYU · #424 ABC392", dir: "up" },
+  { label: "CGPA", value: "9.66 · DEPT TOPPER · IIIT BHOPAL", dir: "up" },
+  { label: "ORDERBOOK", value: "22M OPS/SEC · 46NS/OP", dir: "up" },
+  { label: "UPTIME TARGET", value: "99.995% · ACTIVE-ACTIVE", dir: "up" },
+];
+
+const stack = [
+  {
+    group: "systems / low-latency",
+    items: ["C++23", "Rust", "Lock-free DS", "SPSC queues", "Cache tuning", "GDB"],
+  },
+  {
+    group: "quant / trading",
+    items: ["Order books", "Market microstructure", "Backtesting", "Trend following", "Mean reversion", "Python"],
+  },
+  {
+    group: "distributed / backend",
+    items: ["Haskell", "Istio / Envoy", "Redis Streams", "PostgreSQL", "AWS", "Docker", "Node.js"],
+  },
+  {
+    group: "web / web3",
+    items: ["TypeScript", "React / Next.js", "Tailwind", "S3", "CyberConnect", "QuestEngine"],
+  },
+];
+
 const experiences = [
   {
-    title: "Web Development Lead",
-    company_name: "CODAME, IIIT Bhopal",
-    icon: codame,
-    iconBg: "#000000",
-    date: "August 2023 - Present",
+    title: "Software Development Engineer (ASDE)",
+    company_name: "Juspay",
+    date: "AUG 2025 — PRESENT",
+    tech: ["Distributed Systems", "Haskell", "Rust", "Envoy", "Istio", "Redis", "AWS"],
     points: [
-      "Lead a team of three web developers in the design, development, and maintenance of the official website for CODAME IIIT Bhopal, ensuring it aligns with the club's goals and objectives.",
-      "Bring your web development expertise to the forefront by guiding the team in selecting appropriate technologies, frameworks, and best practices for building an innovative and user-friendly website.",
-      "Foster a collaborative and creative work environment, providing mentorship to team members, sharing knowledge, and fostering skill development. Encourage open communication and teamwork to achieve project milestones and deliver an exceptional website and hackathon experience.",
+      "Designed a globally distributed active-active multi-cell architecture with AWS Global Accelerator and multi-region load balancing, targeting 99.995% uptime with seamless failover.",
+      "Engineered a routing-id-based affinity system (x-routing-id) and an ID replication pipeline on Redis Streams for routing consistency across cells.",
+      "Built a multi-layered request resolution system (affinity + replicated lookup + fanout fallback) and optimized Istio service-mesh routing for fault tolerance and latency.",
+      "Shipped observability & control systems — health checks, maker-checker, a Rust dashboard — for real-time traffic management and merchant onboarding.",
     ],
   },
   {
-    title: "Full Stack Developer",
-    company_name: "GrowthFarm",
-    icon: singularityAI,
-    iconBg: "#000000",
-    date: "May 2023 - Jul 2023",
+    title: "Quant Analyst Associate · Part Time",
+    company_name: "D+A Strategies",
+    date: "MAY 2026 — PRESENT",
+    tech: ["Python", "Backtesting", "Signal Research"],
     points: [
-      "Developed robust and reliable front-end for web and Android applications that increased ease by 90 %",
-      "Integrated potent, reliable back-end using NestJS 13 and Nhipster to manage SASS applications.",
-      "Incorporated GPT-based data scraping via 3rd party API and used Docker and Kubernetes for deployment",
-      "Participating in code reviews and providing constructive feedback to other developers.",
+      "Lecture on quant research pitfalls — survivorship bias, look-ahead bias, overfitting, backtest design — for the analyst division.",
+      "Building an adaptive trend-following strategy: quantitative signal generation, adaptive modeling, systematic risk management.",
     ],
   },
   {
-    title: "Web 3 Full Stack Developer",
-    company_name: "Metaverse Ventures Pvt Ltd",
-    icon: metaverse,
-    iconBg: "#383E56",
-    date: "February 2023 - May 2023",
+    title: "SDE — Backend",
+    company_name: "Buyhatke Internet Pvt Ltd",
+    date: "OCT 2024 — JUL 2025",
+    tech: ["Node.js", "Express", "MySQL", "CRON"],
     points: [
-      "Developing and maintaining web3 applications using Next.js, Tailwind.js and other related technologies.",
-      "Engineered a smooth user experience by implementing powerful and engaging frontend designs for web 3",
-      "Streamlined data management by incorporating reliable back-end for enhanced efficiency and accuracy",
-      "Participating in code reviews and providing constructive feedback to other developers.",
-    ],
-  },
-  {
-    title: "Assistant Web Developer",
-    company_name: "CODAME, IIIT Bhopal",
-    icon: codame,
-    iconBg: "#000000",
-    date: "Oct 2022 - Aug 2023",
-    points: [
-      "Developing and maintaining web applications using Next.js and other related technologies.",
-      "Deployed the official website of the club with intuitive interfaces and seamless navigation for enhanced UX",
-      "Implementing responsive design and ensuring cross-browser compatibility.",
-      "Enhanced engagement with lazy loading, caching & advanced optimizations to boost performance by 15%",
+      "Built a score-based payment routing system across multiple payment gateways for reliable transaction processing.",
+      "Integrated a gift-card system with multiple partners via Onramp.money.",
+      "Optimized queries and automated workflows; improved SpendLens & AutoCoupons serving 50K+ daily users.",
     ],
   },
   {
     title: "Teaching Assistant",
     company_name: "IIIT Bhopal",
-    icon: iiit,
-    iconBg: "#000000",
-    date: "Aug 2023 - Present",
+    date: "AUG 2023 — 2024",
+    tech: ["Mentoring", "Coursework"],
     points: [
-      "With a strong academic foundation and a cumulative GPA of 9.72, I have actively engaged in both coursework and hands-on projects that have equipped me with a diverse skill set. I am currently working as a Teaching Assistant under Professor Dr. Gaurav Kumar Bharti.",
+      "Teaching Assistant under Prof. Dr. Gaurav Kumar Bharti, supporting coursework and labs while maintaining a 9.66 CGPA.",
+    ],
+  },
+  {
+    title: "Full Stack Developer",
+    company_name: "GrowthFarm (SingularityAI)",
+    date: "MAY 2023 — JUL 2023",
+    tech: ["NestJS", "Docker", "Kubernetes", "GPT APIs"],
+    points: [
+      "Built reliable front-ends for web and Android applications and a NestJS backend for SaaS products.",
+      "Incorporated GPT-based data scraping via third-party APIs; deployed with Docker and Kubernetes.",
+      "Participated in code reviews, providing constructive feedback to other developers.",
+    ],
+  },
+  {
+    title: "Web3 Full Stack Intern",
+    company_name: "Metaverse Ventures Pvt Ltd",
+    date: "FEB 2023 — MAY 2023",
+    tech: ["Next.js", "Redux", "Web3", "S3"],
+    points: [
+      "Engineered performant Web3 frontends with Next.js and Tailwind.",
+      "Integrated QuestEngine and CyberConnect with S3-backed storage.",
+    ],
+  },
+  {
+    title: "Web Development Lead (prev. Assistant Web Developer)",
+    company_name: "CODAME, IIIT Bhopal",
+    date: "OCT 2022 — 2024",
+    tech: ["Next.js", "Team Lead", "Performance"],
+    points: [
+      "Led a team of three developers building and maintaining the official CODAME club website and the CodeUtsava hackathon web experience.",
+      "Shipped the club's official site with lazy loading, caching, and cross-browser optimizations, boosting performance by ~15%.",
+      "Mentored team members on technology choices, frameworks, and best practices.",
     ],
   },
 ];
+
 const projects = [
   {
-    name: "EHR",
-    subHead: "Electronic Health Record",
+    name: "orderbookC20",
+    title: "Low-Latency Order Book & Matching Engine",
     description:
-      "Web-based platform that allows users to search, book, and manage car rentals from various providers, providing a convenient and efficient solution for transportation needs.",
-    tags: [
-      {
-        name: "react",
-        color: "blue-text-gradient",
-      },
-      {
-        name: "mongodb",
-        color: "green-text-gradient",
-      },
-      {
-        name: "tailwind",
-        color: "pink-text-gradient",
-      },
+      "Limit order book in modern C++23 — cache-padded wait-free SPSC ring buffer, object-pool allocator, intrusive FIFO per price level for a zero-allocation hot path. Live Binance Futures/Spot feed with event→fill telemetry. Benchmarked with Google Benchmark on Apple M-series.",
+    metrics: [
+      { t: "22M ops/sec sweeps", k: "perf" },
+      { t: "9M ops/sec inserts", k: "perf" },
+      { t: "46–108 ns/op", k: "perf" },
+      { t: "p50 10–20 µs e2e", k: "perf" },
     ],
-    image: EHR,
-    source_code_link: "https://github.com/",
+    tags: ["c++23", "lock-free", "google-benchmark", "cmake"],
+    link: "https://github.com/IIITManjeet/orderbookC20",
   },
   {
-    name: "EHR",
-    subHead: "Electronic Health Record",
+    name: "event-driven-rust-engine",
+    title: "Event-Driven Trading Engine",
     description:
-      "Web application that enables users to search for job openings, view estimated salary ranges for positions, and locate available jobs based on their current location.",
-    tags: [
-      {
-        name: "react",
-        color: "blue-text-gradient",
-      },
-      {
-        name: "restapi",
-        color: "green-text-gradient",
-      },
-      {
-        name: "scss",
-        color: "pink-text-gradient",
-      },
+      "Async multi-exchange market-data ingestion (Binance, Bybit, CoinGecko, Binance Futures) with pluggable strategies, paper-trade execution, portfolio & PnL tracking, cross-exchange arbitrage, and a risk layer with exposure limits and an automated kill-switch.",
+    metrics: [
+      { t: "multi-exchange", k: "cap" },
+      { t: "realized/unrealized PnL", k: "cap" },
+      { t: "auto kill-switch", k: "cap" },
     ],
-    image: EHR,
-    source_code_link: "https://github.com/",
+    tags: ["rust", "tokio", "async-traits", "quant"],
+    link: "https://github.com/IIITManjeet/event-driven-rust-engine",
   },
   {
-    name: "EHR",
-    subHead: "Electronic Health Record",
+    name: "ledger-rs",
+    title: "Double-Entry Ledger System",
     description:
-      "A comprehensive travel booking platform that allows users to book flights, hotels, and rental cars, and offers curated recommendations for popular destinations.",
-    tags: [
-      {
-        name: "nextjs",
-        color: "blue-text-gradient",
-      },
-      {
-        name: "supabase",
-        color: "green-text-gradient",
-      },
-      {
-        name: "css",
-        color: "pink-text-gradient",
-      },
+      "High-performance double-entry ledger in Rust for financial transaction processing and audit-safe accounting — atomic transaction posting, account reconciliation, and balance-consistency guarantees on async Rust + PostgreSQL.",
+    metrics: [
+      { t: "atomic posting", k: "cap" },
+      { t: "audit-safe", k: "cap" },
+      { t: "balance-consistent", k: "cap" },
     ],
-    image: EHR,
-    source_code_link: "https://github.com/",
+    tags: ["rust", "postgresql", "axum", "docker"],
+    link: "https://github.com/IIITManjeet/ledger-rs",
+  },
+  {
+    name: "redisC-",
+    title: "Redis From Scratch",
+    description:
+      "A Redis-style in-memory key-value store built from the ground up in C++ — custom event loop over non-blocking sockets, protocol parsing, hashtables and TTL expiry — to understand what makes production caches fast.",
+    metrics: [
+      { t: "custom event loop", k: "cap" },
+      { t: "non-blocking io", k: "cap" },
+      { t: "ttl expiry", k: "cap" },
+    ],
+    tags: ["c++", "networking", "systems"],
+    link: "https://github.com/IIITManjeet/redisC-",
+  },
+  {
+    name: "Mindful-Journal",
+    title: "Mindful Journal — AI Wellness",
+    description:
+      "AI-powered mood tracking and emotional wellness application — journaling with LLM-assisted reflection and mood analytics over time, on a modern TypeScript stack.",
+    metrics: [
+      { t: "ai reflections", k: "cap" },
+      { t: "mood analytics", k: "cap" },
+    ],
+    tags: ["typescript", "react", "ai"],
+    link: "https://github.com/IIITManjeet/Mindful-Journal",
+  },
+  {
+    name: "Hack36",
+    title: "Mental Health Companion",
+    description:
+      "Flutter application backed by a deployed ML model API for mood detection and support — built at Hack36 and starred 25× on GitHub.",
+    metrics: [
+      { t: "25★ on github", k: "perf" },
+      { t: "deployed ml api", k: "cap" },
+    ],
+    tags: ["flutter", "ml", "hackathon"],
+    link: "https://github.com/IIITManjeet/Hack36",
   },
 ];
 
-const navLinks = [
+const openSource = [
   {
-    id: "about",
-    title: "About",
+    repo: "Mudlet/Mudlet",
+    stars: "880+★ · C++/Qt · cross-platform MUD client",
+    title: "fix: copying of default profiles after fresh install",
+    status: "merged",
+    link: "https://github.com/Mudlet/Mudlet/pull/9317",
   },
   {
-    id: "experience",
-    title: "Experiences",
+    repo: "Mudlet/Mudlet",
+    stars: "880+★ · C++/Qt · cross-platform MUD client",
+    title: "fix: crash when a package uninstalls itself from its own alias/key/trigger",
+    status: "open",
+    link: "https://github.com/Mudlet/Mudlet/pull/9383",
   },
   {
-    id: "projects",
-    title: "Projects",
-  },
-  {
-    id: "contact",
-    title: "Contact",
+    repo: "PasswordMan · responsive-navbar · dailyProblems · more",
+    stars: "community repos · JS / TS / C++",
+    title: "8+ merged PRs — features, bug fixes, docs across open-source repos",
+    status: "merged",
+    link: "https://github.com/search?q=author%3AIIITManjeet+is%3Apr+is%3Amerged&type=pullrequests",
   },
 ];
 
-export { experiences, projects, navLinks };
+const services = [
+  {
+    title: "Quant Dev",
+    desc: "Order books, matching engines, backtesting infra, strategy research tooling, exchange integrations, market-data pipelines.",
+    mono: "latency: nanoseconds",
+    accent: "acc",
+    proof: "see the benchmarks",
+    proofHref: "#projects",
+  },
+  {
+    title: "Backend & Distributed Systems",
+    desc: "Payment infrastructure, active-active architectures, service mesh, observability, high-throughput APIs that don't fall over.",
+    mono: "uptime: 99.995%",
+    accent: "acc",
+    proof: "see where I've shipped",
+    proofHref: "#experience",
+  },
+  {
+    title: "Web3",
+    desc: "dApp frontends, wallet & protocol integrations (CyberConnect, QuestEngine), and freelance client delivery on modern React/Next.js stacks.",
+    mono: "stack: react · next · chains",
+    accent: "cy",
+    proof: "start a project",
+    proofHref: "#contact",
+  },
+];
+
+const achievements = [
+  { stat: "2170", title: "LeetCode Guardian", detail: "max rating — top 1.13% globally", link: socials.leetcode },
+  { stat: "108th", title: "ICPC Regionals Finalist", detail: "of 228 — Amritapuri Finals 2023", link: null },
+  { stat: "2033", title: "CodeChef 5★", detail: "global rank 32 — Starters 176", link: socials.codechef },
+  { stat: "1605", title: "Codeforces Expert", detail: "global rank 736 — Round 1024", link: socials.codeforces },
+  { stat: "R2", title: "Meta HackerCup", detail: "qualified 2023 & 2024 — best rank 1875", link: null },
+  { stat: "2nd", title: "CodeUtsava 6.0", detail: "1st runner-up — national hackathon", link: null },
+  { stat: "9.66", title: "Department Topper", detail: "B.Tech IT — IIIT Bhopal '25", link: null },
+  { stat: "4kyu", title: "AtCoder Cyan", detail: "global rank 424 — ABC 392", link: socials.atcoder },
+];
+
+const contactRoles = [
+  "Quant Dev role",
+  "Backend / Distributed Systems role",
+  "Web3 role",
+  "Freelance project",
+  "Something else",
+];
+
+export {
+  socials,
+  navLinks,
+  ticker,
+  stack,
+  experiences,
+  projects,
+  openSource,
+  services,
+  achievements,
+  contactRoles,
+};
