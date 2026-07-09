@@ -32,20 +32,24 @@ const ticker = [
 
 const stack = [
   {
+    group: "languages",
+    items: ["C++ (C++23)", "Rust", "Haskell", "Python", "TypeScript", "JavaScript", "C", "SQL", "Dart"],
+  },
+  {
     group: "systems / low-latency",
-    items: ["C++23", "Rust", "Lock-free DS", "SPSC queues", "Cache tuning", "GDB"],
+    items: ["Lock-free DS", "SPSC queues", "Cache tuning", "Zero-alloc design", "GDB", "CMake", "Linux"],
   },
   {
     group: "quant / trading",
-    items: ["Order books", "Market microstructure", "Backtesting", "Trend following", "Mean reversion", "Python"],
+    items: ["Order books", "Market microstructure", "Backtesting", "Algorithmic trading", "Trend following", "Mean reversion", "Risk management"],
   },
   {
-    group: "distributed / backend",
-    items: ["Haskell", "Istio / Envoy", "Redis Streams", "PostgreSQL", "AWS", "Docker", "Node.js"],
+    group: "backend / distributed",
+    items: ["Node.js", "NestJS", "Express", "Istio / Envoy", "Redis Streams", "PostgreSQL", "MySQL", "MongoDB", "AWS", "Docker", "Kubernetes", "Tokio"],
   },
   {
-    group: "web / web3",
-    items: ["TypeScript", "React / Next.js", "Tailwind", "S3", "CyberConnect", "QuestEngine"],
+    group: "web / web3 / ai",
+    items: ["React / Next.js", "React Native", "Solana", "CyberConnect", "QuestEngine", "S3", "Redux", "Tailwind", "Flutter", "LLM / GPT APIs"],
   },
 ];
 
@@ -249,8 +253,8 @@ const services = [
   },
   {
     title: "Web3",
-    desc: "dApp frontends, wallet & protocol integrations (CyberConnect, QuestEngine), and freelance client delivery on modern React/Next.js stacks.",
-    mono: "stack: react · next · chains",
+    desc: "dApp frontends, Solana & protocol integrations (CyberConnect, QuestEngine), and freelance client delivery on modern React/Next.js stacks.",
+    mono: "stack: react · next · solana",
     accent: "cy",
     proof: "start a project",
     proofHref: "#contact",
