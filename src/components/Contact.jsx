@@ -20,24 +20,23 @@ const Contact = () => {
     e.preventDefault();
     setStatus("sending");
     try {
-      const res = await fetch(
-        `https://formsubmit.co/ajax/${socials.email}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify({
-            name: form.name,
-            email: form.email,
-            interested_in: form.role,
-            message: form.message,
-            _subject: `[portfolio] ${form.role} — ${form.name}`,
-          }),
-        }
-      );
-      if (!res.ok) throw new Error("send failed");
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          access_key: "3fdf5f8f-f453-4c7e-8ea5-0864157022dc",
+          subject: `[portfolio] ${form.role} — ${form.name}`,
+          name: form.name,
+          email: form.email,
+          interested_in: form.role,
+          message: form.message,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) throw new Error("send failed");
       setStatus("sent");
       setForm({ name: "", email: "", role: contactRoles[0], message: "" });
     } catch (err) {
