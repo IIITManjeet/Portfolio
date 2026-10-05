@@ -9,6 +9,27 @@ const statusStyle = {
   open: "text-cy border-cy/40 bg-cy/10",
 };
 
+const owner = (repo) => repo.split("/")[0];
+const avatar = (repo) => `https://github.com/${owner(repo)}.png?size=64`;
+const count = (r, status) => r.prs.filter((p) => p.status === status).length;
+
+const totals = openSource.reduce(
+  (t, r) => ({ merged: t.merged + count(r, "merged"), open: t.open + count(r, "open") }),
+  { merged: 0, open: 0 }
+);
+
+const OrgAvatar = ({ repo, size }) => (
+  <img
+    src={avatar(repo)}
+    alt=""
+    width={size}
+    height={size}
+    loading="lazy"
+    decoding="async"
+    className="rounded-md bg-raise border border-line shrink-0"
+  />
+);
+
 const OpenSource = () => {
   const live = useLiveStats();
   return (
@@ -17,6 +38,41 @@ const OpenSource = () => {
         Recent pull requests to runtimes, schedulers, clients and contracts —
         mostly bug and correctness fixes.
       </p>
+
+      <div className="mb-8">
+        <p className="font-mono text-[12px] text-dim mb-3">
+          contributed to · <span className="text-acc">{totals.merged} merged</span> ·{" "}
+          <span className="text-cy">{totals.open} open</span> across {openSource.length} projects
+        </p>
+        <ul className="list-none grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+          {openSource.map((r) => {
+            const merged = count(r, "merged");
+            const open = count(r, "open");
+            return (
+              <li key={r.repo}>
+                <a
+                  href={`https://github.com/${owner(r.repo)}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex items-center gap-3 h-full bg-panel/80 border border-line rounded-lg px-3 py-2.5 hover:border-acc/50 transition-colors group"
+                >
+                  <OrgAvatar repo={r.repo} size={32} />
+                  <span className="min-w-0">
+                    <span className="block font-grotesk font-semibold text-[14px] leading-[18px] text-fg group-hover:text-acc transition-colors">
+                      {r.org}
+                    </span>
+                    <span className="block font-mono text-[11px] text-dim">
+                      {merged > 0 && `${merged} merged`}
+                      {merged > 0 && open > 0 && " · "}
+                      {open > 0 && `${open} open`}
+                    </span>
+                  </span>
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
       <div className="grid md:grid-cols-2 gap-5">
         {openSource.map((r, i) => {
           const stars =
@@ -30,13 +86,14 @@ const OpenSource = () => {
               transition={{ duration: 0.4, delay: (i % 2) * 0.08 }}
               className="bg-panel/80 border border-line rounded-xl overflow-hidden"
             >
-              <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1 px-5 py-3 border-b border-line bg-raise">
+              <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 px-5 py-3 border-b border-line bg-raise">
                 <a
                   href={`https://github.com/${r.repo}`}
                   target="_blank"
                   rel="noreferrer"
-                  className="font-mono text-[13.5px] text-fg hover:text-acc transition-colors break-all"
+                  className="flex items-center gap-2.5 min-w-0 font-mono text-[13.5px] text-fg hover:text-acc transition-colors break-all"
                 >
+                  <OrgAvatar repo={r.repo} size={20} />
                   {r.repo}
                 </a>
                 <span className="font-mono text-[11.5px] text-dim">

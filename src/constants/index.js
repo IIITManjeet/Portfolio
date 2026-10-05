@@ -255,6 +255,7 @@ const moreProjects = [
 const openSource = [
   {
     repo: "superradcompany/microsandbox",
+    org: "Super Rad Company",
     about: "Rust · microVM runtime",
     stars: "8.5k",
     prs: [
@@ -266,6 +267,7 @@ const openSource = [
   },
   {
     repo: "Project-HAMi/HAMi",
+    org: "HAMi Project",
     about: "Go · GPU sharing on Kubernetes",
     stars: "4.7k",
     prs: [
@@ -274,6 +276,7 @@ const openSource = [
   },
   {
     repo: "Mudlet/Mudlet",
+    org: "Mudlet",
     about: "C++/Qt · cross-platform MUD client",
     stars: "900+",
     prs: [
@@ -285,6 +288,7 @@ const openSource = [
   },
   {
     repo: "lambdaclass/ethrex",
+    org: "LambdaClass",
     about: "Rust · Ethereum execution client",
     stars: "900+",
     prs: [
@@ -293,6 +297,7 @@ const openSource = [
   },
   {
     repo: "kubeedge/ianvs",
+    org: "KubeEdge",
     about: "Python · distributed AI benchmarking",
     stars: "200+",
     prs: [
@@ -301,11 +306,23 @@ const openSource = [
   },
   {
     repo: "StabilityNexus/Windmill-EVM-Contracts",
+    org: "Stability Nexus",
     about: "Solidity · auction-based order-book exchange",
     stars: null,
     prs: [
       { title: "perf(batch): read and write primary order once in matchOrdersBatch", status: "merged", link: "https://github.com/StabilityNexus/Windmill-EVM-Contracts/pull/22" },
-      { title: "test: cover native ETH settlement and EthTransferFailed paths (3 PRs)", status: "merged", link: "https://github.com/StabilityNexus/Windmill-EVM-Contracts/pulls?q=is%3Apr+author%3AIIITManjeet+is%3Amerged" },
+      { title: "test: cover EthTransferFailed when pre-funded ETH skips WETH withdrawal", status: "merged", link: "https://github.com/StabilityNexus/Windmill-EVM-Contracts/pull/21" },
+      { title: "test: cover native ETH settlement that skips WETH withdrawal", status: "merged", link: "https://github.com/StabilityNexus/Windmill-EVM-Contracts/pull/20" },
+      { title: "test: cover EthTransferFailed path in native ETH settlement", status: "merged", link: "https://github.com/StabilityNexus/Windmill-EVM-Contracts/pull/17" },
+    ],
+  },
+  {
+    repo: "build-the-future-11/FinanceMeta-Global",
+    org: "FinanceMeta",
+    about: "Python · market-microstructure research",
+    stars: null,
+    prs: [
+      { title: "research(microstructure): freeze FIFO vs pro-rata contract", status: "open", link: "https://github.com/build-the-future-11/FinanceMeta-Global/pull/57" },
     ],
   },
 ];
