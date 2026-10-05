@@ -1,8 +1,8 @@
-import React from "react";
+import React, { Suspense, lazy } from "react";
 import { motion } from "framer-motion";
 import { socials, ticker } from "../constants";
-import Terminal from "./Terminal";
 import { useLiveStats } from "../hooks/useLive";
+import { useUI } from "../context/ui";
 import { GithubIcon, LinkedinIcon, CodeIcon } from "./fx/Icons";
 
 // deterministic pseudo-random sparkline per label — looks like a rating history chart
@@ -54,7 +54,7 @@ const Ticker = () => {
     return t;
   });
   return (
-    <div className="relative w-full border-y border-line bg-panel/60 overflow-hidden mt-16">
+    <div className="relative w-full border-y border-line bg-panel/60 overflow-hidden mt-16" aria-label="Ratings and highlights" role="region">
       <div className="ticker-track py-3">
         {[...items, ...items].map((t, i) => (
           <span
@@ -78,18 +78,25 @@ const Ticker = () => {
           </span>
         ))}
       </div>
-      <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-ink to-transparent pointer-events-none" />
+      <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-ink to-transparent pointer-events-none" aria-hidden="true" />
       <div className="absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-ink to-transparent pointer-events-none" />
     </div>
   );
 };
 
+const LiveOrderBook = lazy(() => import("./showcase/LiveOrderBook"));
+
+const BookFallback = () => (
+  <div className="w-full h-[452px] bg-panel/90 border border-line rounded-xl" aria-hidden="true" />
+);
+
 const Hero = () => {
+  const { setPaletteOpen, setTerminalOpen } = useUI();
   return (
-    <div id="top" className="relative pt-32 pb-4 overflow-hidden">
+    <div id="top" className="relative pt-28 sm:pt-32 pb-4 overflow-hidden">
       <div className="absolute top-[-160px] right-[-160px] w-[500px] h-[500px] rounded-full bg-acc/[0.04] blur-[140px] pointer-events-none" />
 
-      <div className="section-shell grid lg:grid-cols-[1.1fr_1fr] gap-14 items-center">
+      <div className="section-shell grid lg:grid-cols-[1fr_minmax(0,520px)] gap-12 lg:gap-14 items-center">
         <div className="flex flex-col gap-6">
           <motion.p
             initial={{ opacity: 0 }}
@@ -97,7 +104,7 @@ const Hero = () => {
             transition={{ duration: 0.5 }}
             className="font-mono text-[14px] text-acc tracking-wide"
           >
-            {"// backend · quant · web3 · competitive programming"}
+            {"// systems · trading · frontend"}
           </motion.p>
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
@@ -113,32 +120,31 @@ const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.6 }}
-            className="font-inter text-[17px] leading-[28px] text-mut max-w-[520px]"
+            className="font-inter text-[17px] leading-[28px] text-mut max-w-[540px]"
           >
-            I build{" "}
-            <span className="text-fg">payment infrastructure</span> at Juspay
-            and <span className="text-fg">low-latency trading systems</span> on
-            my own time — trading engines that process millions of orders per
-            second, and payment platforms designed to stay up 99.995% of the
-            time.
+            I build <span className="text-fg">payment infrastructure</span> at
+            Juspay — multi-region, active-active, designed for 99.995% uptime —
+            and the <span className="text-fg">interfaces that make complex
+            systems legible</span>: trading terminals, protocol dashboards and
+            interactive explainers.
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.6 }}
-            className="flex flex-wrap items-center gap-4 mt-2"
+            className="flex flex-wrap items-center gap-3 sm:gap-4 mt-2"
           >
             <a
               href="#projects"
               className="font-mono text-[14px] bg-acc text-ink font-semibold rounded px-6 py-3 hover:opacity-90 transition-opacity"
             >
-              view projects →
+              view work →
             </a>
             <a
               href="#contact"
               className="font-mono text-[14px] text-fg border border-line rounded px-6 py-3 hover:border-acc/60 hover:text-acc transition-colors"
             >
-              hire me
+              contact
             </a>
             <a
               href="/resume.pdf"
@@ -153,7 +159,7 @@ const Hero = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4, duration: 0.6 }}
-            className="flex gap-2 -ml-3"
+            className="flex flex-wrap items-center gap-x-2 gap-y-1 -ml-3"
           >
             {[
               { label: "github", href: socials.github, Icon: GithubIcon },
@@ -171,10 +177,33 @@ const Hero = () => {
                 {s.label}
               </a>
             ))}
+            <span className="hidden sm:block basis-full pl-3 font-mono text-[12.5px] text-dim">
+              <button type="button" onClick={() => setPaletteOpen(true)} className="kbd-btn">
+                ctrl k
+              </button>{" "}
+              to navigate ·{" "}
+              <button type="button" onClick={() => setTerminalOpen(true)} className="kbd-btn">
+                `
+              </button>{" "}
+              for a terminal
+            </span>
           </motion.div>
         </div>
 
-        <Terminal />
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3, duration: 0.6 }}
+          className="min-w-0"
+        >
+          <Suspense fallback={<BookFallback />}>
+            <LiveOrderBook />
+          </Suspense>
+          <p className="font-mono text-[11.5px] leading-[18px] text-dim mt-3">
+            A React component, not a screenshot: WebSocket feed batched to
+            ≤10 renders/sec, with an in-browser matching engine as fallback.
+          </p>
+        </motion.div>
       </div>
 
       <Ticker />

@@ -10,7 +10,7 @@ const accentText = {
 
 const HireMe = () => {
   return (
-    <Section id="work" index="05" kicker="services" title="What I can build for you.">
+    <Section id="services" index="06" kicker="services" title="What I can build for you.">
       <div className="grid md:grid-cols-3 gap-6">
         {services.map((s, i) => (
           <motion.div

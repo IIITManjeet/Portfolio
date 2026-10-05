@@ -6,6 +6,18 @@
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#04070c" />
+    <script>
+      // set the theme before first paint so there is no flash of the wrong one
+      (function () {
+        try {
+          var t = localStorage.getItem("theme");
+          if (!t) t = matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+          document.documentElement.dataset.theme = t;
+        } catch (e) {
+          document.documentElement.dataset.theme = "dark";
+        }
+      })();
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -14,7 +26,7 @@
     />
     <meta
       name="description"
-      content="Manjeet Pathak — Software Engineer at Juspay. Distributed payment infrastructure, low-latency trading systems, and quantitative research. C++23, Rust, Haskell. LeetCode Guardian · ICPC Regionals Finalist."
+      content="Manjeet Pathak — software engineer at Juspay. Distributed payment infrastructure, low-latency trading systems, and the interfaces on top: Glasshouse (live on Base mainnet), Braid, a C++23 order book at 22M ops/sec."
     />
     <link rel="canonical" href="https://manjeetpathak.vercel.app/" />
     <meta property="og:url" content="https://manjeetpathak.vercel.app/" />
@@ -22,13 +34,13 @@
     <meta property="og:title" content="Manjeet Pathak · Software Engineer" />
     <meta
       property="og:description"
-      content="Backend @ Juspay · Quant Dev · Web3. C++23 order book at 22M ops/sec, distributed payments at 99.995% uptime target, LeetCode Guardian (top 1.13%)."
+      content="Systems engineer who ships UIs. Payments at Juspay, order books from C++23 to on-chain, and interactive explainers — with a live order book and an order-split explorer you can try."
     />
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content="Manjeet Pathak · Software Engineer" />
     <meta
       name="twitter:description"
-      content="Backend @ Juspay · Quant Dev · Web3. Order books in nanoseconds, architectures in nines."
+      content="Systems engineer who ships UIs — payments at Juspay, order books, and interfaces that make complex systems legible."
     />
     <title>Manjeet Pathak · Software Engineer</title>
   </head>

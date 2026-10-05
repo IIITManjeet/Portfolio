@@ -1,5 +1,4 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { motion } from "framer-motion";
 import {
   socials,
   projects,
@@ -9,7 +8,7 @@ import {
 } from "../constants";
 
 const BOOT = [
-  { cmd: "whoami", out: ["manjeet pathak — backend engineer @ juspay"] },
+  { cmd: "whoami", out: ["manjeet pathak — systems engineer @ juspay who ships UIs"] },
   {
     cmd: "./orderbook --bench",
     out: [
@@ -20,15 +19,16 @@ const BOOT = [
   { cmd: "curl ratings/live", out: ["LC 2170 ▲  CF 1605 ▲  CC 2033 ▲"] },
 ];
 
-const SUGGESTIONS = ["help", "projects", "ratings", "sudo hire-me"];
+const SUGGESTIONS = ["help", "projects", "oss", "theme", "sudo hire-me"];
 
-const scrollToId = (id) => {
-  const el = document.getElementById(id);
-  if (el) el.scrollIntoView({ behavior: "smooth" });
-  return !!el;
-};
-
-const Terminal = () => {
+// onNavigate(target) is supplied by the host: "#id" scrolls to a home-page
+// section, "/path" routes to a page. It returns false if the target is unknown.
+const Terminal = ({ onNavigate, onToggleTheme }) => {
+  const nav = useRef(onNavigate);
+  nav.current = onNavigate;
+  const toggleTheme = useRef(onToggleTheme);
+  toggleTheme.current = onToggleTheme;
+  const scrollToId = (id) => (nav.current ? nav.current(`#${id}`) !== false : false);
   const [bootIdx, setBootIdx] = useState(0);
   const [typed, setTyped] = useState("");
   const [bootDone, setBootDone] = useState(false);
@@ -79,20 +79,20 @@ const Terminal = () => {
         out([
           "commands:",
           "  about · projects · experience · skills · ratings",
-          "  oss · freelance · contact · resume · socials",
-          "  open <section> · sudo hire-me · neofetch · clear",
+          "  oss · freelance · contact · resume · socials · theme",
+          "  open <section|project> · sudo hire-me · neofetch · clear",
         ]),
       about: () =>
         out([
-          "backend engineer @ juspay — distributed payments (99.995% uptime target)",
-          "quant dev: C++23 order book (22M ops/sec) · rust trading engine",
-          "icpc regionals finalist · leetcode guardian (top 1.13%)",
+          "systems engineer @ juspay — distributed payments (99.995% uptime target)",
+          "builds the UIs too: glasshouse (base mainnet), braid, quantout",
+          "C++23 order book (22M ops/sec) · icpc regionals finalist · leetcode guardian",
         ]),
-      whoami: () => out(["manjeet pathak — backend · quant · web3"]),
+      whoami: () => out(["manjeet pathak — systems · trading · frontend"]),
       projects: () =>
         out([
-          ...projects.map((p) => `  ~/${p.name} — ${p.title}`),
-          "→ type 'open projects' to view cards",
+          ...projects.map((p) => `  ${p.slug.padEnd(11)} ${p.title}`),
+          "→ type 'open <name>' for a case study, e.g. 'open braid'",
         ]),
       experience: () =>
         out([
@@ -108,8 +108,8 @@ const Terminal = () => {
         out(achievements.map((a) => `  ${a.stat.padEnd(6)} ${a.title} — ${a.detail}`)),
       oss: () =>
         out([
-          "  Mudlet/Mudlet (C++, 880+★): merged profile-copy fix, open crash fix",
-          "  8+ merged PRs across community repos",
+          "  microsandbox (rust) · HAMi (go) · Mudlet (c++/qt) · Windmill (solidity)",
+          "  + open PRs in ethrex and kubeedge/ianvs",
           "→ type 'open opensource'",
         ]),
       freelance: () =>
@@ -168,24 +168,28 @@ const Terminal = () => {
         window.open(`mailto:${socials.email}`);
         return ok([`mailto:${socials.email}`]);
       },
+      theme: () => {
+        toggleTheme.current && toggleTheme.current();
+        return ok(["theme toggled"]);
+      },
       neofetch: () =>
         out([
           "  ┌─ manjeet@quant ─────────────────┐",
-          "  │ role     backend · quant · web3 │",
-          "  │ lang     c++23 rust haskell ts  │",
+          "  │ role     systems · trading · ui │",
+          "  │ lang     c++23 rust ts haskell  │",
           "  │ uptime   99.995% target         │",
           "  │ latency  46 ns/op               │",
           "  │ rating   LC 2170 · CF 1605      │",
           "  └─────────────────────────────────┘",
         ]),
       ls: () =>
-        out(["about/  experience/  projects/  oss/  hire-me/  contact/"]),
+        out(["about/  experience/  projects/  lab/  oss/  ranks/  contact/"]),
       vim: () => out(["you're already in it. try ':q' — it won't help."]),
       ":q": () => out(["E37: no write since last change. you stay."]),
       exit: () => out(["session persists — this terminal ships with the site."]),
       clear: () => null,
     };
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const run = (raw) => {
     const text = raw.trim();
@@ -210,18 +214,22 @@ const Terminal = () => {
       const target = lower.slice(5).trim().replace("open-source", "opensource");
       const map = {
         about: "about", experience: "experience", exp: "experience",
-        projects: "projects", opensource: "opensource", oss: "opensource",
-        "hire-me": "work", work: "work", achievements: "achievements",
+        projects: "projects", work: "projects", lab: "lab",
+        opensource: "opensource", oss: "opensource",
+        "hire-me": "services", services: "services", achievements: "achievements",
         ranks: "achievements", contact: "contact",
       };
-      const id = map[target];
-      const okScroll = id && scrollToId(id);
+      const slug = projects.find(
+        (p) => p.slug === target || p.name.toLowerCase() === target
+      )?.slug;
+      const dest = slug ? `/work/${slug}` : map[target] && `#${map[target]}`;
+      const okNav = dest && nav.current && nav.current(dest) !== false;
       setLines((l) => [
         ...l,
         ...newLines,
-        okScroll
-          ? { type: "accent", text: `scrolling to #${id} ↓` }
-          : { type: "out", text: `open: no such section '${target}'` },
+        okNav
+          ? { type: "accent", text: slug ? `opening case study: ${slug} ↗` : `scrolling to ${dest} ↓` }
+          : { type: "out", text: `open: no such section or project '${target}'` },
       ]);
       return;
     }
@@ -260,12 +268,14 @@ const Terminal = () => {
 
   const lineColor = { cmd: "text-fg", out: "text-mut", accent: "text-acc" };
 
+  // focus the prompt as soon as it exists (the terminal lives in a dialog)
+  useEffect(() => {
+    if (bootDone) inputRef.current?.focus();
+  }, [bootDone]);
+
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.35, duration: 0.6 }}
-      className="w-full bg-panel/90 border border-line rounded-xl overflow-hidden glow-acc"
+    <div
+      className="w-full bg-panel border border-line rounded-xl overflow-hidden glow-acc"
       onClick={() => inputRef.current && inputRef.current.focus()}
     >
       <div className="flex items-center gap-2 px-4 py-3 border-b border-line bg-raise">
@@ -279,7 +289,10 @@ const Terminal = () => {
 
       <div
         ref={bodyRef}
-        className="p-5 h-[300px] sm:h-[330px] overflow-y-auto terminal-scroll cursor-text"
+        className="p-5 h-[min(360px,55vh)] overflow-y-auto terminal-scroll cursor-text"
+        role="log"
+        aria-live="polite"
+        aria-label="terminal output"
       >
         {lines.map((line, i) => (
           <p
@@ -312,7 +325,7 @@ const Terminal = () => {
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={onKeyDown}
               aria-label="terminal input — type help"
-              className="flex-1 bg-transparent border-0 outline-none font-mono text-[13px] text-fg caret-transparent min-w-0"
+              className="flex-1 bg-transparent border-0 outline-none focus-visible:outline-none font-mono text-[13px] text-fg caret-transparent min-w-0"
               autoComplete="off"
               spellCheck="false"
             />
@@ -340,7 +353,7 @@ const Terminal = () => {
           ))}
         </div>
       )}
-    </motion.div>
+    </div>
   );
 };
 

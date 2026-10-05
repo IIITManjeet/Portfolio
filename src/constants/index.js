@@ -1,3 +1,6 @@
+// All copy and facts live here. Every number is sourced from a repo README,
+// the GitHub API, or the resume — see .claude/skills/portfolio-content.
+
 const socials = {
   github: "https://github.com/IIITManjeet",
   linkedin: "https://www.linkedin.com/in/manjeet-pathak-896638223/",
@@ -11,9 +14,9 @@ const socials = {
 const navLinks = [
   { id: "about", title: "about" },
   { id: "experience", title: "exp" },
-  { id: "projects", title: "projects" },
+  { id: "projects", title: "work" },
+  { id: "lab", title: "lab" },
   { id: "opensource", title: "oss" },
-  { id: "work", title: "services" },
   { id: "achievements", title: "ranks" },
   { id: "contact", title: "contact" },
 ];
@@ -27,29 +30,34 @@ const ticker = [
   { label: "ATCODER", value: "4 KYU · #424 ABC392", dir: "up" },
   { label: "CGPA", value: "9.66 · DEPT TOPPER · IIIT BHOPAL", dir: "up" },
   { label: "ORDERBOOK", value: "22M OPS/SEC · 46NS/OP", dir: "up" },
+  { label: "GLASSHOUSE", value: "LIVE ON BASE MAINNET · ETHONLINE '26", dir: "up" },
   { label: "UPTIME TARGET", value: "99.995% · ACTIVE-ACTIVE", dir: "up" },
 ];
 
 const stack = [
   {
     group: "languages",
-    items: ["C++ (C++23)", "Rust", "Haskell", "Python", "TypeScript", "JavaScript", "C", "SQL", "Dart"],
+    items: ["C++ (C++23)", "Rust", "TypeScript", "JavaScript", "Haskell", "Python", "Solidity", "Move", "SQL"],
+  },
+  {
+    group: "frontend",
+    items: ["React 19", "Next.js 16", "Astro", "Preact + Signals", "Tailwind", "Motion", "TanStack Query", "Zustand", "d3", "lightweight-charts", "wagmi / viem", "MDX + KaTeX"],
+  },
+  {
+    group: "frontend quality",
+    items: ["Playwright e2e", "axe a11y tests", "Vitest", "JS size budgets", "Design tokens", "Web Workers"],
   },
   {
     group: "systems / low-latency",
-    items: ["Lock-free DS", "SPSC queues", "Cache tuning", "Zero-alloc design", "GDB", "CMake", "Linux"],
-  },
-  {
-    group: "quant / trading",
-    items: ["Order books", "Market microstructure", "Backtesting", "Algorithmic trading", "Trend following", "Mean reversion", "Risk management"],
+    items: ["Lock-free DS", "SPSC queues", "Cache tuning", "Zero-alloc design", "Tokio", "Linux"],
   },
   {
     group: "backend / distributed",
-    items: ["Node.js", "NestJS", "Express", "Istio / Envoy", "Redis Streams", "PostgreSQL", "MySQL", "MongoDB", "AWS", "Docker", "Kubernetes", "Tokio"],
+    items: ["Envoy / Istio", "Redis Streams", "PostgreSQL", "Axum", "Node.js", "AWS", "Docker", "Kubernetes"],
   },
   {
-    group: "web / web3 / ai",
-    items: ["React / Next.js", "React Native", "Solana", "CyberConnect", "QuestEngine", "S3", "Redux", "Tailwind", "Flutter", "LLM / GPT APIs"],
+    group: "markets / chains",
+    items: ["Order books", "Market microstructure", "AMMs", "Backtesting", "Base / EVM", "Sui / Aptos", "Solana / Anchor", "The Graph"],
   },
 ];
 
@@ -64,6 +72,8 @@ const experiences = [
       "Engineered a routing-id-based affinity system (x-routing-id) and an ID replication pipeline on Redis Streams for routing consistency across cells.",
       "Built a multi-layered request resolution system (affinity + replicated lookup + fanout fallback) and optimized Istio service-mesh routing for fault tolerance and latency.",
       "Shipped observability & control systems — health checks, maker-checker, a Rust dashboard — for real-time traffic management and merchant onboarding.",
+      "Working on code-level latency optimizations for a tier-1 banking client integration.",
+      "Contributing to a complete migration of reconciliation (recon) onto a common Rust framework, using ART traffic recording and rehearsal to verify behavior parity.",
     ],
   },
   {
@@ -130,114 +140,180 @@ const experiences = [
   },
 ];
 
+// Flagship projects: each has a case study at /work/:slug (see caseStudies.js).
+// Chip kinds — perf: measured number (green), cap: capability (cyan).
 const projects = [
   {
-    name: "orderbookC20",
-    title: "Low-Latency Order Book & Matching Engine",
+    slug: "glasshouse",
+    name: "Glasshouse",
+    title: "Glasshouse — sealed-bid taker priority",
+    kicker: "ETHOnline 2026 · live on Base mainnet",
     description:
-      "Limit order book in modern C++23 — cache-padded wait-free SPSC ring buffer, object-pool allocator, intrusive FIFO per price level for a zero-allocation hot path. Live Binance Futures/Spot feed with event→fill telemetry. Benchmarked with Google Benchmark on Apple M-series.",
+      "A custom 1inch SwapVM instruction (opcode 0x2e) that sells the right to fill an order by sealed, second-price auction. The site is a static Next.js export that reads the contract straight from the visitor's browser — no backend, no database.",
     metrics: [
-      { t: "22M ops/sec sweeps", k: "perf" },
-      { t: "9M ops/sec inserts", k: "perf" },
-      { t: "46–108 ns/op", k: "perf" },
-      { t: "p50 10–20 µs e2e", k: "perf" },
+      { t: "live on base mainnet", k: "cap" },
+      { t: "maker gives up 9,756 vs 10,618 bps", k: "perf" },
+      { t: "97 solidity + 59 js tests", k: "cap" },
     ],
-    tags: ["c++23", "lock-free", "google-benchmark", "cmake"],
-    link: "https://github.com/IIITManjeet/orderbookC20",
+    tags: ["next.js 16", "react 19", "tailwind 4", "wagmi", "viem", "solidity", "the graph"],
+    live: "https://glasshouse-ashy.vercel.app",
+    link: "https://github.com/IIITManjeet/Glasshouse",
   },
   {
-    name: "event-driven-rust-engine",
-    title: "Event-Driven Trading Engine",
+    slug: "braid",
+    name: "Braid",
+    title: "Braid — one order, four venues, two chains",
+    kicker: "Sui + Aptos testnet · route-split UI",
     description:
-      "Async multi-exchange market-data ingestion (Binance, Bybit, CoinGecko, Binance Futures) with pluggable strategies, paper-trade execution, portfolio & PnL tracking, cross-exchange arbitrage, and a risk layer with exposure limits and an automated kill-switch.",
+      "An exchange with four venue types — constant product, StableSwap, concentrated liquidity and a crit-bit order book — and a router that splits one order across all four and settles it atomically. Implemented in Sui Move and Aptos Move, with a Rust replica both VMs are held to.",
     metrics: [
-      { t: "multi-exchange", k: "cap" },
-      { t: "realized/unrealized PnL", k: "cap" },
-      { t: "auto kill-switch", k: "cap" },
+      { t: "570 sui + 574 aptos move tests", k: "cap" },
+      { t: "quote 4 µs p99", k: "perf" },
+      { t: "4-way plan in 4 ms", k: "perf" },
     ],
-    tags: ["rust", "tokio", "async-traits", "quant"],
+    tags: ["next.js 16", "react 19", "tanstack query", "move", "rust", "axum"],
+    live: "https://braid-4piq.onrender.com",
+    link: "https://github.com/IIITManjeet/Braid",
+  },
+  {
+    slug: "quantout",
+    name: "quantout",
+    title: "quantout — an interactive quant curriculum",
+    kicker: "collaboration with hr483 · Astro rebuild",
+    description:
+      "I rebuilt a quant-learning site in Astro with Preact islands: a 206-lesson curriculum across six learning paths, 150+ lessons rewritten as predict–interact–reveal simulations, a market-making game, spaced-repetition reviews and an accessibility-tested CI.",
+    metrics: [
+      { t: "150+ interactive lessons", k: "cap" },
+      { t: "playwright + axe in ci", k: "cap" },
+      { t: "js size budget", k: "cap" },
+    ],
+    tags: ["astro", "preact", "signals", "d3", "mdx", "katex", "supabase"],
+    live: null,
+    link: null,
+    note: "private repository — walkthrough on request",
+  },
+  {
+    slug: "orderbook",
+    name: "orderbookC20 + matchbook",
+    title: "Order books — from C++23 to on-chain",
+    kicker: "C++23 engine · Solana CLOB DEX + trading terminal",
+    description:
+      "A zero-allocation C++23 limit order book benchmarked at tens of millions of ops/sec, and Matchbook: a central limit order book DEX on Solana with perpetual futures, a Rust indexer and a Next.js trading terminal streaming live devnet data.",
+    metrics: [
+      { t: "22M ops/sec sweeps · 46 ns/op", k: "perf" },
+      { t: "p50 10–20 µs event→fill", k: "perf" },
+      { t: "live devnet terminal", k: "cap" },
+    ],
+    tags: ["c++23", "rust", "anchor", "next.js", "lightweight-charts", "zustand"],
+    live: "https://iiitmanjeet.github.io/matchbook/",
+    link: "https://github.com/IIITManjeet/matchbook",
+  },
+];
+
+// Smaller projects shown as a compact list.
+const moreProjects = [
+  {
+    name: "event-driven-rust-engine",
+    title: "Event-driven trading engine",
+    description: "Async multi-exchange market data, pluggable strategies, paper execution, PnL tracking and a risk kill-switch.",
+    tags: ["rust", "tokio"],
     link: "https://github.com/IIITManjeet/event-driven-rust-engine",
   },
   {
     name: "ledger-rs",
-    title: "Double-Entry Ledger System",
-    description:
-      "High-performance double-entry ledger in Rust for financial transaction processing and audit-safe accounting — atomic transaction posting, account reconciliation, and balance-consistency guarantees on async Rust + PostgreSQL.",
-    metrics: [
-      { t: "atomic posting", k: "cap" },
-      { t: "audit-safe", k: "cap" },
-      { t: "balance-consistent", k: "cap" },
-    ],
-    tags: ["rust", "postgresql", "axum", "docker"],
+    title: "Double-entry ledger",
+    description: "Atomic transaction posting, reconciliation and balance-consistency checks on async Rust and PostgreSQL.",
+    tags: ["rust", "postgresql", "axum"],
     link: "https://github.com/IIITManjeet/ledger-rs",
   },
   {
     name: "redisC-",
-    title: "Redis From Scratch",
-    description:
-      "A Redis-style in-memory key-value store built from the ground up in C++ — custom event loop over non-blocking sockets, protocol parsing, hashtables and TTL expiry — to understand what makes production caches fast.",
-    metrics: [
-      { t: "custom event loop", k: "cap" },
-      { t: "non-blocking io", k: "cap" },
-      { t: "ttl expiry", k: "cap" },
-    ],
-    tags: ["c++", "networking", "systems"],
+    title: "Redis from scratch",
+    description: "In-memory key-value store in C++: custom event loop, non-blocking sockets, protocol parsing, TTL expiry.",
+    tags: ["c++", "networking"],
     link: "https://github.com/IIITManjeet/redisC-",
   },
   {
     name: "Mindful-Journal",
-    title: "Mindful Journal — AI Wellness",
-    description:
-      "AI-powered mood tracking and emotional wellness application — journaling with LLM-assisted reflection and mood analytics over time, on a modern TypeScript stack.",
-    metrics: [
-      { t: "ai reflections", k: "cap" },
-      { t: "mood analytics", k: "cap" },
-    ],
+    title: "Mindful Journal",
+    description: "AI-assisted journaling and mood analytics, with a responsive UI refresh: local-time greeting, calendar, logo.",
     tags: ["typescript", "react", "ai"],
     link: "https://github.com/IIITManjeet/Mindful-Journal",
+    live: "https://mindful-journal-one.vercel.app",
   },
   {
     name: "Hack36",
-    title: "Mental Health Companion",
-    description:
-      "Flutter application backed by a deployed ML model API for mood detection and support — built at Hack36 and starred 25× on GitHub.",
-    metrics: [
-      { t: "25★ on github", k: "perf" },
-      { t: "deployed ml api", k: "cap" },
-    ],
-    tags: ["flutter", "ml", "hackathon"],
+    title: "Mental health companion",
+    description: "Flutter app backed by a deployed ML model API for mood detection — built at Hack36.",
+    tags: ["flutter", "ml"],
     link: "https://github.com/IIITManjeet/Hack36",
   },
 ];
 
+// Open source: only merged and open PRs (closed-unmerged are not contributions).
+// stars: snapshot from the GitHub API on 2026-10-05; Mudlet is refreshed live.
 const openSource = [
   {
-    repo: "Mudlet/Mudlet",
-    stars: "880+★ · C++/Qt · cross-platform MUD client",
-    title: "fix: copying of default profiles after fresh install",
-    status: "merged",
-    link: "https://github.com/Mudlet/Mudlet/pull/9317",
+    repo: "superradcompany/microsandbox",
+    about: "Rust · microVM runtime",
+    stars: "8.5k",
+    prs: [
+      { title: "fix(sdk): enable TLS interception when modify adds a secret", status: "merged", link: "https://github.com/superradcompany/microsandbox/pull/1432" },
+      { title: "feat(sdk/go): support AttachWith for non-default guest users", status: "merged", link: "https://github.com/superradcompany/microsandbox/pull/1252" },
+      { title: "feat(sdk): add live resize status readback and wait helpers", status: "open", link: "https://github.com/superradcompany/microsandbox/pull/1636" },
+      { title: "fix(metrics): follow live memory resizes in memory limit and usage", status: "open", link: "https://github.com/superradcompany/microsandbox/pull/1679" },
+    ],
+  },
+  {
+    repo: "Project-HAMi/HAMi",
+    about: "Go · GPU sharing on Kubernetes",
+    stars: "4.7k",
+    prs: [
+      { title: "fix(scheduler): ignore unrecognized scheduler-policy annotations so the configured policy stands", status: "merged", link: "https://github.com/Project-HAMi/HAMi/pull/2769" },
+    ],
   },
   {
     repo: "Mudlet/Mudlet",
-    stars: "880+★ · C++/Qt · cross-platform MUD client",
-    title: "fix: crash when a package uninstalls itself from its own alias/key/trigger",
-    status: "open",
-    link: "https://github.com/Mudlet/Mudlet/pull/9383",
+    about: "C++/Qt · cross-platform MUD client",
+    stars: "900+",
+    prs: [
+      { title: "Fix: a negative wrap indent no longer crashes Mudlet", status: "merged", link: "https://github.com/Mudlet/Mudlet/pull/10392" },
+      { title: "Fix: replace() no longer crashes Mudlet when the selection runs backwards", status: "merged", link: "https://github.com/Mudlet/Mudlet/pull/10389" },
+      { title: "Fix: use-after-free when a package uninstalls itself from its own alias/key/trigger", status: "merged", link: "https://github.com/Mudlet/Mudlet/pull/9383" },
+      { title: "fix: copying of default profiles after fresh install", status: "merged", link: "https://github.com/Mudlet/Mudlet/pull/9317" },
+    ],
   },
   {
-    repo: "PasswordMan · responsive-navbar · dailyProblems · more",
-    stars: "community repos · JS / TS / C++",
-    title: "8+ merged PRs — features, bug fixes, docs across open-source repos",
-    status: "merged",
-    link: "https://github.com/search?q=author%3AIIITManjeet+is%3Apr+is%3Amerged&type=pullrequests",
+    repo: "lambdaclass/ethrex",
+    about: "Rust · Ethereum execution client",
+    stars: "900+",
+    prs: [
+      { title: "fix(l1): iterate from the seek key in the in-memory backend", status: "open", link: "https://github.com/lambdaclass/ethrex/pull/7137" },
+    ],
+  },
+  {
+    repo: "kubeedge/ianvs",
+    about: "Python · distributed AI benchmarking",
+    stars: "200+",
+    prs: [
+      { title: "fix(core/lifelong): fail fast when splitting_method under-produces dataset splits", status: "open", link: "https://github.com/kubeedge/ianvs/pull/825" },
+    ],
+  },
+  {
+    repo: "StabilityNexus/Windmill-EVM-Contracts",
+    about: "Solidity · auction-based order-book exchange",
+    stars: null,
+    prs: [
+      { title: "perf(batch): read and write primary order once in matchOrdersBatch", status: "merged", link: "https://github.com/StabilityNexus/Windmill-EVM-Contracts/pull/22" },
+      { title: "test: cover native ETH settlement and EthTransferFailed paths (3 PRs)", status: "merged", link: "https://github.com/StabilityNexus/Windmill-EVM-Contracts/pulls?q=is%3Apr+author%3AIIITManjeet+is%3Amerged" },
+    ],
   },
 ];
 
 const services = [
   {
-    title: "Quant Dev",
-    desc: "Order books, matching engines, backtesting infra, strategy research tooling, exchange integrations, market-data pipelines.",
+    title: "Trading & Market Systems",
+    desc: "Order books, matching engines, market-data pipelines, backtesting infrastructure and exchange integrations.",
     mono: "latency: nanoseconds",
     accent: "acc",
     proof: "see the benchmarks",
@@ -245,19 +321,19 @@ const services = [
   },
   {
     title: "Backend & Distributed Systems",
-    desc: "Payment infrastructure, always-on multi-region architectures, service mesh, observability, and high-throughput APIs engineered for reliability.",
-    mono: "uptime: 99.995%",
+    desc: "Payment infrastructure, multi-region active-active architectures, service mesh, observability and high-throughput APIs.",
+    mono: "uptime target: 99.995%",
     accent: "acc",
     proof: "see where I've shipped",
     proofHref: "#experience",
   },
   {
-    title: "Web3",
-    desc: "dApp frontends, Solana & protocol integrations (CyberConnect, QuestEngine), and freelance client delivery on modern React/Next.js stacks.",
-    mono: "stack: react · next · solana",
+    title: "Data-dense Frontends",
+    desc: "Trading terminals, protocol dashboards and interactive explainers — React, Next.js and Astro, tested for accessibility and performance.",
+    mono: "stack: react · next · astro",
     accent: "cy",
-    proof: "start a project",
-    proofHref: "#contact",
+    proof: "try the lab",
+    proofHref: "#lab",
   },
 ];
 
@@ -273,8 +349,9 @@ const achievements = [
 ];
 
 const contactRoles = [
-  "Quant Dev role",
-  "Backend / Distributed Systems role",
+  "Systems / Backend role",
+  "Trading / Quant Dev role",
+  "Frontend / Full-stack role",
   "Web3 role",
   "Freelance project",
   "Something else",
@@ -287,6 +364,7 @@ export {
   stack,
   experiences,
   projects,
+  moreProjects,
   openSource,
   services,
   achievements,

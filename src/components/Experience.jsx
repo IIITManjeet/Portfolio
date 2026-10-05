@@ -13,7 +13,7 @@ const ExperienceItem = ({ exp, i }) => (
   >
     {/* timeline spine */}
     <div className="hidden sm:block absolute left-[178px] top-[10px] bottom-0 w-px bg-line" />
-    <div className="hidden sm:block absolute left-[174px] top-[8px] w-[9px] h-[9px] rounded-full bg-acc shadow-[0_0_12px_rgba(0,229,160,0.8)]" />
+    <div className="hidden sm:block absolute left-[174px] top-[8px] w-[9px] h-[9px] rounded-full bg-acc shadow-[0_0_12px_rgb(var(--c-acc)/0.8)]" />
 
     <p className="font-mono text-[12.5px] text-dim pt-[6px] sm:text-right sm:pr-8">
       {exp.date}

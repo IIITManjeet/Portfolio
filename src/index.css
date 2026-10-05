@@ -3,44 +3,95 @@
 @tailwind utilities;
 
 :root {
-  --ink: #04070c;
-  --acc: #00e5a0;
-  --cy: #38bdf8;
+  --c-ink: 4 7 12;
+  --c-panel: 10 15 24;
+  --c-raise: 14 21 32;
+  --c-line: 26 35 50;
+  --c-fg: 230 237 243;
+  --c-mut: 156 168 184;
+  --c-dim: 124 138 156;
+  --c-acc: 0 229 160;
+  --c-cy: 56 189 248;
+  --c-gold: 240 185 11;
+  --c-down: 255 77 109;
+  --grid: 0.035;
+  color-scheme: dark;
+}
+
+/* light theme — every accent darkened to keep 4.5:1 text contrast on white */
+:root[data-theme="light"] {
+  --c-ink: 246 247 249;
+  --c-panel: 255 255 255;
+  --c-raise: 239 242 246;
+  --c-line: 221 226 234;
+  --c-fg: 12 18 30;
+  --c-mut: 71 85 105;
+  --c-dim: 96 110 132;
+  --c-acc: 4 120 87;
+  --c-cy: 3 105 161;
+  --c-gold: 161 98 7;
+  --c-down: 190 18 60;
+  --grid: 0.06;
+  color-scheme: light;
 }
 
 html {
   scroll-behavior: smooth;
 }
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
 
 body {
-  background-color: var(--ink);
-  background-image: linear-gradient(rgba(56, 189, 248, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(56, 189, 248, 0.035) 1px, transparent 1px);
+  background-color: rgb(var(--c-ink));
+  background-image: linear-gradient(rgb(var(--c-cy) / var(--grid)) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(var(--c-cy) / var(--grid)) 1px, transparent 1px);
   background-size: 44px 44px;
-  color: #e6edf3;
+  color: rgb(var(--c-fg));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family: "Inter", sans-serif;
   overflow-x: hidden;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 ::selection {
-  background: rgba(0, 229, 160, 0.25);
-  color: #ffffff;
+  background: rgb(var(--c-acc) / 0.25);
+  color: rgb(var(--c-fg));
+}
+
+/* one visible, consistent focus ring for keyboard users */
+:focus-visible {
+  outline: 2px solid rgb(var(--c-acc));
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.skip-link {
+  position: absolute;
+  left: 12px;
+  top: -48px;
+  z-index: 100;
+  transition: top 0.15s ease;
+}
+.skip-link:focus {
+  top: 12px;
 }
 
 body::-webkit-scrollbar {
   width: 8px;
 }
 body::-webkit-scrollbar-track {
-  background: #04070c;
+  background: rgb(var(--c-ink));
 }
 body::-webkit-scrollbar-thumb {
-  background: #1a2332;
+  background: rgb(var(--c-line));
   border-radius: 8px;
 }
 body::-webkit-scrollbar-thumb:hover {
-  background: #2a3648;
+  background: rgb(var(--c-dim));
 }
 
 /* terminal cursor blink */
@@ -78,10 +129,10 @@ body::-webkit-scrollbar-thumb:hover {
 
 /* soft glow accents */
 .glow-acc {
-  box-shadow: 0 0 80px 6px rgba(0, 229, 160, 0.07);
+  box-shadow: 0 0 80px 6px rgb(var(--c-acc) / 0.07);
 }
 .glow-cy {
-  box-shadow: 0 0 80px 6px rgba(56, 189, 248, 0.07);
+  box-shadow: 0 0 80px 6px rgb(var(--c-cy) / 0.07);
 }
 
 /* gentle float for the hero terminal */
@@ -110,7 +161,7 @@ body::-webkit-scrollbar-thumb:hover {
   width: 6px;
 }
 .terminal-scroll::-webkit-scrollbar-thumb {
-  background: #1a2332;
+  background: rgb(var(--c-line));
   border-radius: 6px;
 }
 
@@ -126,7 +177,7 @@ body::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(
     115deg,
     transparent 35%,
-    rgba(0, 229, 160, 0.07) 50%,
+    rgb(var(--c-acc) / 0.07) 50%,
     transparent 65%
   );
   transform: translateX(-110%);
@@ -143,8 +194,8 @@ body::-webkit-scrollbar-thumb:hover {
 }
 .lift:hover {
   transform: translateY(-3px);
-  border-color: rgba(0, 229, 160, 0.45);
-  box-shadow: 0 8px 40px rgba(0, 229, 160, 0.08);
+  border-color: rgb(var(--c-acc) / 0.45);
+  box-shadow: 0 8px 40px rgb(var(--c-acc) / 0.08);
 }
 
 /* mono tag chip */
@@ -160,4 +211,18 @@ body::-webkit-scrollbar-thumb:hover {
 /* form fields */
 .field {
   @apply w-full bg-panel border border-line rounded-lg px-4 py-3 font-inter text-[15px] text-fg placeholder:text-dim outline-none focus:border-acc/60 transition-colors;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lift:hover {
+    transform: none;
+  }
+  .sheen::before {
+    display: none;
+  }
+}
+
+/* inline keyboard-hint button */
+.kbd-btn {
+  @apply font-mono text-[11.5px] text-mut border border-line rounded px-1.5 py-[1px] bg-transparent cursor-pointer hover:text-acc hover:border-acc/50 transition-colors;
 }
