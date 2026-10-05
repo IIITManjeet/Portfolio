@@ -6,8 +6,8 @@ import { Ladder, MidChart, Tape, fmtPrice } from "./orderbook/parts";
 const DEPTH = 8;
 
 const BADGE = {
-  live: { text: "● LIVE · BINANCE BTC/USDT", cls: "text-acc border-acc/40 bg-acc/10" },
-  sim: { text: "◆ SIMULATED · local matching engine", cls: "text-cy border-cy/40 bg-cy/10" },
+  live: { text: "● LIVE · BINANCE BTC/USDT", cls: "text-acc border-acc/40 bg-panel" },
+  sim: { text: "◆ SIMULATED · local matching engine", cls: "text-cy border-cy/40 bg-panel" },
   connecting: { text: "○ CONNECTING · BINANCE", cls: "text-dim border-line" },
 };
 
@@ -58,7 +58,7 @@ const LiveOrderBook = ({ className = "" }) => {
     <section
       ref={rootRef}
       aria-label="BTC/USDT order book"
-      className={`w-full bg-panel/90 border border-line rounded-xl overflow-hidden glow-acc ${className}`}
+      className={`w-full bg-panel border border-line rounded-xl overflow-hidden glow-acc ${className}`}
     >
       <div className="flex items-center justify-between gap-3 px-4 py-3 border-b border-line bg-raise">
         <span className="font-mono text-[12px] text-dim truncate">

@@ -2,6 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import Section from "./Section";
 import { services } from "../constants";
+import { EASE, Item, Stagger, spotlight } from "./motion";
 
 const accentText = {
   acc: "text-acc",
@@ -11,15 +12,13 @@ const accentText = {
 const HireMe = () => {
   return (
     <Section id="services" index="06" kicker="services" title="What I can build for you.">
-      <div className="grid md:grid-cols-3 gap-6">
-        {services.map((s, i) => (
-          <motion.div
+      <Stagger className="grid md:grid-cols-3 gap-6" stagger={0.1}>
+        {services.map((s) => (
+          <Item
             key={s.title}
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.05 }}
-            transition={{ duration: 0.5, delay: i * 0.08 }}
-            className="lift sheen bg-panel/80 border border-line rounded-xl p-6 flex flex-col gap-4"
+            whileHover={{ y: -4, transition: { duration: 0.25, ease: EASE } }}
+            onPointerMove={spotlight}
+            className="spotlight lift bg-panel/80 border border-line rounded-xl p-6 flex flex-col gap-4"
           >
             <p className={`font-mono text-[12.5px] ${accentText[s.accent]}`}>
               {s.mono}
@@ -36,9 +35,9 @@ const HireMe = () => {
             >
               {s.proof} <span className="text-acc">→</span>
             </a>
-          </motion.div>
+          </Item>
         ))}
-      </div>
+      </Stagger>
 
       <motion.p
         initial={{ opacity: 0 }}

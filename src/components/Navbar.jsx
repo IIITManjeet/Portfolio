@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { AnimatePresence, motion, useScroll, useSpring } from "framer-motion";
 import { navLinks } from "../constants";
 import { useUI } from "../context/ui";
 import { MoonIcon, SunIcon } from "./fx/Icons";
+import { EASE } from "./motion";
 
 const isMac = typeof navigator !== "undefined" && /Mac|iPhone|iPad/.test(navigator.platform);
 
@@ -10,25 +12,38 @@ const Navbar = () => {
   const { go, setPaletteOpen, theme, toggleTheme } = useUI();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-  const [progress, setProgress] = useState(0);
+  const [active, setActive] = useState(null);
+  const { pathname } = useLocation();
+  const { scrollY, scrollYProgress } = useScroll();
+  const progress = useSpring(scrollYProgress, { stiffness: 220, damping: 32, restDelta: 0.001 });
 
+  useEffect(() => scrollY.on("change", (y) => setScrolled(y > 40)), [scrollY]);
+
+  // Scroll-spy: the section crossing the upper third of the viewport is "active".
   useEffect(() => {
-    let frame = 0;
-    const onScroll = () => {
-      cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(() => {
-        setScrolled(window.scrollY > 40);
-        const max = document.documentElement.scrollHeight - window.innerHeight;
-        setProgress(max > 0 ? (window.scrollY / max) * 100 : 0);
+    if (pathname !== "/") {
+      setActive(null);
+      return undefined;
+    }
+    const obs = new IntersectionObserver(
+      (entries) => {
+        const hit = entries.find((e) => e.isIntersecting);
+        if (hit) setActive(hit.target.id);
+      },
+      { rootMargin: "-30% 0px -65% 0px" }
+    );
+    const t = setTimeout(() => {
+      // "top" (the hero) is watched too, so scrolling back up clears the highlight.
+      ["top", ...navLinks.map((n) => n.id)].forEach((id) => {
+        const el = document.getElementById(id);
+        if (el) obs.observe(el);
       });
-    };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
+    }, 600);
     return () => {
-      cancelAnimationFrame(frame);
-      window.removeEventListener("scroll", onScroll);
+      clearTimeout(t);
+      obs.disconnect();
     };
-  }, []);
+  }, [pathname]);
 
   // Real hrefs keep middle-click / copy-link working; clicks route in-app.
   const sectionLink = (id, extra) => ({
@@ -55,16 +70,19 @@ const Navbar = () => {
   );
 
   return (
-    <header
+    <motion.header
+      initial={{ y: -64, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.7, ease: EASE, delay: 0.1 }}
       className={`fixed top-0 w-full z-50 transition-colors ${
         scrolled || open
           ? "bg-ink/90 backdrop-blur-xl border-b border-line"
           : "bg-transparent border-b border-transparent"
       }`}
     >
-      <div
-        className="absolute top-0 left-0 h-[2px] bg-gradient-to-r from-acc to-cy"
-        style={{ width: `${progress}%` }}
+      <motion.div
+        className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-acc to-cy origin-left"
+        style={{ scaleX: progress }}
         aria-hidden="true"
       />
       <nav
@@ -84,12 +102,23 @@ const Navbar = () => {
           <span className="cursor-blink text-acc ml-1" aria-hidden="true">▌</span>
         </Link>
 
-        <ul className="hidden lg:flex items-center gap-5 list-none whitespace-nowrap">
+        <ul className="hidden lg:flex items-center gap-1 list-none whitespace-nowrap">
           {navLinks.map((nav, i) => (
-            <li key={nav.id}>
+            <li key={nav.id} className="relative">
+              {active === nav.id && (
+                <motion.span
+                  layoutId="nav-active"
+                  className="absolute inset-0 rounded bg-acc/10 border border-acc/30"
+                  transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                  aria-hidden="true"
+                />
+              )}
               <a
                 {...sectionLink(nav.id)}
-                className="font-mono text-[13px] text-mut hover:text-acc transition-colors"
+                aria-current={active === nav.id ? "location" : undefined}
+                className={`relative block px-2.5 py-1.5 font-mono text-[13px] transition-colors ${
+                  active === nav.id ? "text-acc" : "text-mut hover:text-acc"
+                }`}
               >
                 <span className="text-dim">0{i + 1}.</span>
                 {nav.title}
@@ -129,18 +158,38 @@ const Navbar = () => {
         </div>
       </nav>
 
+      <AnimatePresence initial={false}>
       {open && (
-        <div id="mobile-menu" className="lg:hidden px-6 pb-5">
-          <ul className="flex flex-col gap-1 list-none pt-2">
+        <motion.div
+          id="mobile-menu"
+          key="mobile-menu"
+          initial={{ height: 0, opacity: 0 }}
+          animate={{ height: "auto", opacity: 1 }}
+          exit={{ height: 0, opacity: 0 }}
+          transition={{ duration: 0.35, ease: EASE }}
+          className="lg:hidden px-6 overflow-hidden"
+        >
+          <motion.ul
+            initial="hidden"
+            animate="show"
+            variants={{ show: { transition: { staggerChildren: 0.035, delayChildren: 0.05 } } }}
+            className="flex flex-col gap-1 list-none pt-2 pb-5"
+          >
             {navLinks.map((nav, i) => (
-              <li key={nav.id}>
+              <motion.li
+                key={nav.id}
+                variants={{
+                  hidden: { opacity: 0, x: -12 },
+                  show: { opacity: 1, x: 0, transition: { duration: 0.35, ease: EASE } },
+                }}
+              >
                 <a
                   {...sectionLink(nav.id)}
                   className="block py-2.5 font-mono text-[14px] text-mut hover:text-acc"
                 >
                   <span className="text-dim">0{i + 1}.</span> {nav.title}
                 </a>
-              </li>
+              </motion.li>
             ))}
             <li>
               <button
@@ -154,10 +203,11 @@ const Navbar = () => {
                 <span className="text-dim">›</span> search / commands
               </button>
             </li>
-          </ul>
-        </div>
+          </motion.ul>
+        </motion.div>
       )}
-    </header>
+      </AnimatePresence>
+    </motion.header>
   );
 };
 

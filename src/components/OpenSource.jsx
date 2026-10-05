@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import Section from "./Section";
 import { openSource, socials } from "../constants";
 import { useLiveStats } from "../hooks/useLive";
+import { EASE, Item, Stagger, spotlight } from "./motion";
 
 const statusStyle = {
   merged: "text-acc border-acc/40 bg-acc/10",
@@ -44,12 +45,12 @@ const OpenSource = () => {
           contributed to · <span className="text-acc">{totals.merged} merged</span> ·{" "}
           <span className="text-cy">{totals.open} open</span> across {openSource.length} projects
         </p>
-        <ul className="list-none grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+        <Stagger as="ul" stagger={0.05} className="list-none grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
           {openSource.map((r) => {
             const merged = count(r, "merged");
             const open = count(r, "open");
             return (
-              <li key={r.repo}>
+              <Item as="li" y={14} key={r.repo} whileHover={{ y: -3, transition: { duration: 0.2, ease: EASE } }}>
                 <a
                   href={`https://github.com/${owner(r.repo)}`}
                   target="_blank"
@@ -68,25 +69,22 @@ const OpenSource = () => {
                     </span>
                   </span>
                 </a>
-              </li>
+              </Item>
             );
           })}
-        </ul>
+        </Stagger>
       </div>
-      <div className="grid md:grid-cols-2 gap-5">
+      <Stagger className="grid md:grid-cols-2 gap-5" stagger={0.08}>
         {openSource.map((r, i) => {
           const stars =
             r.repo === "Mudlet/Mudlet" && live?.mudletStars ? `${live.mudletStars}` : r.stars;
           return (
-            <motion.div
+            <Item
               key={r.repo}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.05 }}
-              transition={{ duration: 0.4, delay: (i % 2) * 0.08 }}
-              className="bg-panel/80 border border-line rounded-xl overflow-hidden"
+              onPointerMove={spotlight}
+              className="spotlight bg-panel/80 border border-line rounded-xl"
             >
-              <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 px-5 py-3 border-b border-line bg-raise">
+              <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 px-5 py-3 border-b border-line bg-raise rounded-t-xl">
                 <a
                   href={`https://github.com/${r.repo}`}
                   target="_blank"
@@ -103,7 +101,7 @@ const OpenSource = () => {
               </div>
               <ul className="list-none">
                 {r.prs.map((pr) => (
-                  <li key={pr.link} className="border-b border-line/60 last:border-b-0">
+                  <li key={pr.link} className="border-b border-line/60 last:border-b-0 last:rounded-b-xl overflow-hidden">
                     <a
                       href={pr.link}
                       target="_blank"
@@ -122,10 +120,10 @@ const OpenSource = () => {
                   </li>
                 ))}
               </ul>
-            </motion.div>
+            </Item>
           );
         })}
-      </div>
+      </Stagger>
       <p className="font-mono text-[13px] text-dim mt-6">
         full history:{" "}
         <a

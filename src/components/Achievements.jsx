@@ -4,6 +4,7 @@ import Section from "./Section";
 import CountUp from "./fx/CountUp";
 import { achievements } from "../constants";
 import { useLiveStats } from "../hooks/useLive";
+import { EASE, Stagger, spotlight } from "./motion";
 
 const AchievementCard = ({ a, i, compact }) => {
   const Tag = a.link ? motion.a : motion.div;
@@ -12,11 +13,13 @@ const AchievementCard = ({ a, i, compact }) => {
       {...(a.link
         ? { href: a.link, target: "_blank", rel: "noreferrer" }
         : {})}
-      initial={{ opacity: 0, y: 16 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.05 }}
-      transition={{ duration: 0.4, delay: (i % 4) * 0.06 }}
-      className={`bg-panel/80 border border-line rounded-xl flex flex-col gap-1 no-underline ${
+      variants={{
+        hidden: { opacity: 0, y: 20, scale: 0.97 },
+        show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.6, ease: EASE } },
+      }}
+      whileHover={a.link ? { y: -4, transition: { duration: 0.25, ease: EASE } } : undefined}
+      onPointerMove={spotlight}
+      className={`spotlight bg-panel/80 border border-line rounded-xl flex flex-col gap-1 no-underline ${
         compact ? "p-4" : "p-5"
       } ${a.link ? "lift cursor-pointer" : ""}`}
     >
@@ -57,16 +60,16 @@ const Achievements = () => {
   const rest = withLive.slice(4);
   return (
     <Section id="achievements" index="07" kicker="achievements" title="Competitive programming, by the numbers." size="sm">
-      <div className="grid grid-cols-1 min-[480px]:grid-cols-2 lg:grid-cols-4 gap-5">
+      <Stagger className="grid grid-cols-1 min-[480px]:grid-cols-2 lg:grid-cols-4 gap-5" stagger={0.08}>
         {headline.map((a, i) => (
           <AchievementCard key={a.title} a={a} i={i} />
         ))}
-      </div>
-      <div className="grid grid-cols-1 min-[480px]:grid-cols-2 lg:grid-cols-4 gap-5 mt-5">
+      </Stagger>
+      <Stagger className="grid grid-cols-1 min-[480px]:grid-cols-2 lg:grid-cols-4 gap-5 mt-5" stagger={0.05}>
         {rest.map((a, i) => (
           <AchievementCard key={a.title} a={a} i={i} compact />
         ))}
-      </div>
+      </Stagger>
     </Section>
   );
 };

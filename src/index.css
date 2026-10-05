@@ -135,21 +135,7 @@ body::-webkit-scrollbar-thumb:hover {
   box-shadow: 0 0 80px 6px rgb(var(--c-cy) / 0.07);
 }
 
-/* gentle float for the hero terminal */
-.animate-float {
-  animation: floaty 7s ease-in-out infinite;
-}
-@keyframes floaty {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-8px);
-  }
-}
 @media (prefers-reduced-motion: reduce) {
-  .animate-float,
   .ticker-track,
   .cursor-blink {
     animation: none;
@@ -165,37 +151,65 @@ body::-webkit-scrollbar-thumb:hover {
   border-radius: 6px;
 }
 
-/* diagonal sheen sweep on card hover */
-.sheen {
-  position: relative;
-  overflow: hidden;
-}
-.sheen::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    115deg,
-    transparent 35%,
-    rgb(var(--c-acc) / 0.07) 50%,
-    transparent 65%
-  );
-  transform: translateX(-110%);
-  transition: transform 0.7s ease;
-  pointer-events: none;
-}
-.sheen:hover::before {
-  transform: translateX(110%);
-}
-
-/* card hover lift */
+/* card hover: border + glow here; the lift itself is a framer whileHover,
+   because framer owns the inline transform on animated cards */
 .lift {
-  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
 .lift:hover {
-  transform: translateY(-3px);
   border-color: rgb(var(--c-acc) / 0.45);
-  box-shadow: 0 8px 40px rgb(var(--c-acc) / 0.08);
+  box-shadow: 0 12px 48px -12px rgb(var(--c-acc) / 0.18);
+}
+
+/* cursor spotlight: a soft fill plus a lit border that follow the pointer.
+   Position comes from the `spotlight` pointer handler (--mx/--my). */
+.spotlight {
+  position: relative;
+  isolation: isolate;
+}
+.spotlight::before,
+.spotlight::after {
+  content: "";
+  position: absolute;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+.spotlight::after {
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(
+    420px circle at var(--mx, 50%) var(--my, 50%),
+    rgb(var(--c-acc) / 0.08),
+    transparent 45%
+  );
+}
+.spotlight::before {
+  inset: -1px;
+  padding: 1px;
+  background: radial-gradient(
+    240px circle at var(--mx, 50%) var(--my, 50%),
+    rgb(var(--c-acc) / 0.7),
+    transparent 65%
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+.spotlight:hover::before,
+.spotlight:hover::after,
+.spotlight:focus-within::before {
+  opacity: 1;
+}
+
+/* hero backdrop: grid fading out from the top-left */
+.hero-grid {
+  background-image: linear-gradient(rgb(var(--c-line) / 0.55) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(var(--c-line) / 0.55) 1px, transparent 1px);
+  background-size: 56px 56px;
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 30% 35%, #000 20%, transparent 75%);
+  mask-image: radial-gradient(ellipse 70% 60% at 30% 35%, #000 20%, transparent 75%);
 }
 
 /* mono tag chip */
@@ -213,14 +227,6 @@ body::-webkit-scrollbar-thumb:hover {
   @apply w-full bg-panel border border-line rounded-lg px-4 py-3 font-inter text-[15px] text-fg placeholder:text-dim outline-none focus:border-acc/60 transition-colors;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .lift:hover {
-    transform: none;
-  }
-  .sheen::before {
-    display: none;
-  }
-}
 
 /* inline keyboard-hint button */
 .kbd-btn {

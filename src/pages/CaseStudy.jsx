@@ -4,6 +4,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { projects } from "../constants";
 import caseStudies from "../constants/caseStudies";
 import { metricStyle } from "../components/Projects";
+import { spotlight } from "../components/motion";
 
 const SplitExplorer = lazy(() => import("../components/showcase/SplitExplorer"));
 const LiveOrderBook = lazy(() => import("../components/showcase/LiveOrderBook"));
@@ -254,7 +255,8 @@ const CaseStudy = () => {
 
           <Link
             to={`/work/${next.slug}`}
-            className="lift sheen block mt-16 bg-panel/80 border border-line rounded-xl p-6 group"
+            onPointerMove={spotlight}
+            className="spotlight lift block mt-16 bg-panel/80 border border-line rounded-xl p-6 group"
           >
             <p className="font-mono text-[12px] text-dim">next case study →</p>
             <p className="font-grotesk font-semibold text-[22px] text-fg mt-2 group-hover:text-acc transition-colors">
